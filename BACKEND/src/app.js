@@ -14,22 +14,46 @@ app.use(pinoHttp({ logger, prettyPrint: true }));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// session storage
+// cookie parser
+app.use(require("cookie-parser")());
 
-// EXPERIMENTAL
-// TODO: switch to neo4j
-const MongoStore = require("connect-mongodb-session")(expressSession);
-const mongoStore = new MongoStore({
-  uri: "mongodb://localhost:27017",
-  databaseName: "my_application_data",
-  collection: "appSessions",
-});
-mongoStore.on("error", (err) => {
-  console.log(err);
-});
+// express flash
+app.use(require("express-flash")());
+
+// init database
+const initDatabase = require("./config/db.config.js");
+initDatabase.configNeo4j();
+
+// session storage setup
+const { neo4j } = require("./config/db.config.js");
+const expressSession = require("express-session");
+const NeoStore = require("connect-neo4j-user")(expressSession);
+const neoStore = new NeoStore({ client: neo4j() });
+
+const secret = process.env.SECRET_KEY || "super secret key";
+
+app.use(
+  expressSession({
+    secret: secret,
+    resave: false,
+    saveUninitialized: false,
+    expires: 1000 * 60 * 1, // 1 minute
+    store: neoStore,
+  })
+);
 
 // passport authentication
 const passport = require("passport");
 const initializePassport = require("./config/passport.config.js");
+initializePassport(passport);
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+// routes
+const isAuthenticated = require("./middleware/isAuthenticated.middleware.js");
+app.get("/", isAuthenticated, (_req, res) => {
+  logger.info("GET /");
+  res.send("Hello World!");
+});
 module.exports = app;
