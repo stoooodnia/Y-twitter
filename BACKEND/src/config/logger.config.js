@@ -1,7 +1,2 @@
 const pino = require("pino");
-module.exports = pino({
-  transport: {
-    target: "pino-pretty",
-  },
-  prettyPrint: true,
-});
+module.exports = pino({});

@@ -1,4 +1,4 @@
-const neo4j = require("neo4j-driver");
+const neo4jModule = require("neo4j-driver");
 const logger = require("./logger.config.js");
 
 let neo4jDriver;
@@ -19,9 +19,9 @@ const configNeo4j = () => {
       maxConnectionPoolSize: 50,
       maxConnectionLIFEtime: 100000,
     };
-    const driver = neo4j.driver(
+    const driver = neo4jModule.driver(
       DATABASE_URL,
-      neo4j.auth.basic(DATABASE_USERNAME, DATABASE_PASSWORD),
+      neo4jModule.auth.basic(DATABASE_USERNAME, DATABASE_PASSWORD),
       config
     );
     neo4jDriver = driver;
