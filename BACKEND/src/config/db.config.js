@@ -35,7 +35,18 @@ const neo4j = () => {
   return neo4jDriver;
 };
 
+const executeCypherQuery = async (statement, params = {}) => {
+  try {
+    const result = await neo4j().session().run(statement, params);
+    session.close();
+    return result;
+  } catch (error) {
+    logger.error("Neo4j query error: ", error);
+    throw new Error(error);
+  }
+};
 module.exports = {
   configNeo4j,
   neo4j,
+  executeCypherQuery,
 };
