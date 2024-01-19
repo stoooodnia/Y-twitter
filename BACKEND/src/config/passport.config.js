@@ -35,7 +35,7 @@ module.exports = function initializePassport(passport) {
   passport.use(
     new passportLocal.Strategy({ usernameField: "username" }, validateUser)
   );
-  passport.serializeUser((user, done) => done(null, user.id));
+  passport.serializeUser((user, done) => done(null, user.username));
   passport.deserializeUser((id, done) => {
     const query = "MATCH (user:User) WHERE id(user) = $id RETURN user";
     executeCypherQuery(query, { id })
