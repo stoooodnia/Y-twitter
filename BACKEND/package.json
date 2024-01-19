@@ -1,0 +1,25 @@
+{
+  "name": "node_api",
+  "version": "1.0.0",
+  "description": "Node_api for university course \"Web technologies\" project \"Y\" - X/Twitter made using Vue, node and socket.IO",
+  "main": "main.js",
+  "repository": "TODO",
+  "author": "Karol Studniarek",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "neo4j-driver": "^5.16.0",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "pino": "^8.17.2",
+    "pino-http": "^9.0.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3",
+    "pino-pretty": "^10.3.1"
+  }
+}
