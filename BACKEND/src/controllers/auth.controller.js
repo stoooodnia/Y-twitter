@@ -3,7 +3,7 @@ const { register } = require("../models/users.model.js");
 
 // register post
 const registerUser = async (req, res) => {
-  logger.info("Trying to register user");
+  logger.info("Registering user");
   try {
     // todo: add validation for req.body
     await register(req.body);
@@ -26,13 +26,23 @@ const loginAuthenticate = (req, res) => {
 
 // logout post
 const logout = (req, res, next) => {
-  logger.info("Trying to logout user");
+  logger.info("Loging out user");
   req.logout(function (err) {
     if (err) {
       logger.error(`Error logging out user: ${err}`);
       return next(err);
     }
-    res.status(302).redirect("/auth/login");
+    req.session.destroy(function (err) {
+      if (!err) {
+        res
+          .status(200)
+          .clearCookie("connect.sid", { path: "/" })
+          .json({ status: "Success" });
+      } else {
+        logger.error(`Error destroying session: ${err}`);
+        return next(err);
+      }
+    });
   });
 };
 

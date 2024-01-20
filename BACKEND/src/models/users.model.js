@@ -51,6 +51,7 @@ async function register(userData) {
       username: userData.username,
       email: userData.email,
       password: passwordHash,
+      description: "",
     };
 
     const result = await executeWriteTransaction(createUserQuery, params);

@@ -77,4 +77,5 @@ app.use(passport.session());
 // });
 
 app.use("/auth", require("./routes/auth.route.js"));
+app.use("/user", require("./routes/user.route.js"));
 module.exports = app;
