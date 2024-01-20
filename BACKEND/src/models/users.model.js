@@ -5,6 +5,7 @@ const {
   executeReadTransaction,
   executeWriteTransaction,
 } = require("../config/db.config");
+const { v4: uuidv4 } = require("uuid");
 
 /**
  * Register a new user in the Neo4j database.
@@ -39,12 +40,14 @@ async function register(userData) {
     }
 
     const createUserQuery = `
-        CREATE (user:User { username: $username, email: $email, password: $password })
+        CREATE (user:User { userId: $userId, username: $username, email: $email, password: $password })
         RETURN user
       `;
 
     const passwordHash = await bcrypt.hash(userData.password, 10);
+    const id = uuidv4();
     const params = {
+      userId: id,
       username: userData.username,
       email: userData.email,
       password: passwordHash,

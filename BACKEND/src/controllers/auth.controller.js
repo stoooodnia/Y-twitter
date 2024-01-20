@@ -1,4 +1,3 @@
-const passport = require("passport");
 const logger = require("../config/logger.config.js");
 const { register } = require("../models/users.model.js");
 
@@ -16,13 +15,13 @@ const registerUser = async (req, res) => {
 };
 
 // login post, authentication
-const loginAuthenticate = (req, res, next) => {
-  logger.info("Trying to authenticate user");
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/auth/login",
-    failureFlash: true,
-  })(req, res, next);
+const loginAuthenticate = (req, res) => {
+  logger.info("Login user");
+  res.status(200).send({
+    userId: req.user.userId,
+    username: req.user.username,
+    email: req.user.email,
+  });
 };
 
 // logout post

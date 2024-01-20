@@ -35,25 +35,24 @@ module.exports = function initializePassport(passport) {
   passport.use(
     new passportLocal.Strategy({ usernameField: "username" }, validateUser)
   );
-  passport.serializeUser((user, done) => done(null, user.username));
-  passport.deserializeUser((id, done) => {
-    const query = "MATCH (user:User) WHERE id(user) = $id RETURN user";
-    executeCypherQuery(query, { id })
+  passport.serializeUser((user, done) => done(null, user.userId));
+  passport.deserializeUser((userId, done) => {
+    const query = "MATCH (user:User) WHERE user.userId = $userId RETURN user";
+    executeCypherQuery(query, { userId })
       .then((result) => {
         // parsing result
         const user = result.records[0]
           ? result.records[0].get("user").properties
           : null;
         if (!user) {
-          logger.error("Incorrect id");
-          return done(null, false, { message: "Incorrect id" });
+          logger.error("Incorrect userId");
+          return done(null, false, { message: "Incorrect userId" });
         }
         logger.info("User deserialized");
         done(null, {
-          id: user.id,
+          userId: user.userId,
           username: user.username,
           email: user.email,
-          role: user.role,
         });
       })
       .catch((err) => {
