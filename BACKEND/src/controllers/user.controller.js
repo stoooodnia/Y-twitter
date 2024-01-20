@@ -1,4 +1,8 @@
 const logger = require("../config/logger.config.js");
+const {
+  executeWriteTransaction,
+  executeReadTransaction,
+} = require("../config/db.config.js");
 
 // change description of user
 
@@ -8,7 +12,7 @@ const changeDescription = async (req, res) => {
     const { userId, newDescription } = req.body;
 
     const userExistsQuery = "MATCH (user:User {userId: $userId}) RETURN user";
-    const userExistsResult = await executeCypherQuery(userExistsQuery, {
+    const userExistsResult = await executeReadTransaction(userExistsQuery, {
       userId,
     });
 
@@ -19,7 +23,7 @@ const changeDescription = async (req, res) => {
 
     const updateDescriptionQuery =
       "MATCH (user:User {userId: $userId}) SET user.description = $newDescription RETURN user";
-    const updateResult = await executeCypherQuery(updateDescriptionQuery, {
+    const updateResult = await executeWriteTransaction(updateDescriptionQuery, {
       userId,
       newDescription,
     });
@@ -27,7 +31,7 @@ const changeDescription = async (req, res) => {
     const updatedUser = updateResult.records[0].get("user").properties;
 
     logger.info("Updated user description");
-    return res.status(200).json({ success: true, user: updatedUser });
+    return res.status(200).json({ success: true });
   } catch (error) {
     logger.error(
       `Error while trying to change description of user: ${error.message}`

@@ -52,30 +52,7 @@ app.use(passport.session());
 
 // routes
 
-// const isAuthenticated = require("./middlewares/isAuthenticated.middleware.js");
-// app.get("/", isAuthenticated, (_req, res) => {
-//   logger.info("GET /");
-//   res.send("Hello World!");
-// });
-
-// const { executeReadTransaction } = require("./config/db.config.js");
-// app.get("/test", async (req, res) => {
-//   try {
-//     const username = "tester2";
-
-//     const getUserQuery = `
-//       MATCH (user:User {username: $username})
-//       RETURN user
-//     `;
-
-//     const result = await executeReadTransaction(getUserQuery, { username });
-
-//     logger.info(result.records[0].get("user").properties);
-//   } catch (err) {
-//     logger.error(err);
-//   }
-// });
-
+const isAuthenticated = require("./middlewares/isAuthenticated.middleware.js");
 app.use("/auth", require("./routes/auth.route.js"));
-app.use("/user", require("./routes/user.route.js"));
+app.use("/user", isAuthenticated, require("./routes/user.route.js"));
 module.exports = app;
