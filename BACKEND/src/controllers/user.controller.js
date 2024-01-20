@@ -40,6 +40,55 @@ const changeDescription = async (req, res) => {
   }
 };
 
+const followUser = async (req, res) => {
+  try {
+    const { followerId, followingId } = req.body;
+
+    // Sprawdź, czy oba użytkownicy istnieją w ramach transakcji do odczytu
+    const usersExistQuery =
+      "MATCH (follower:User {userId: $followerId}), (following:User {userId: $followingId}) RETURN follower, following";
+    const usersExistResult = await executeReadTransaction(usersExistQuery, {
+      followerId,
+      followingId,
+    });
+
+    if (!usersExistResult.records[0]) {
+      logger.error("One of the users doesnt exist");
+      return res.status(404).send({ error: "One of the users doesnt exist" });
+    }
+
+    const relationshipExistsQuery =
+      "MATCH (follower:User {userId: $followerId})-[r:IS_FOLLOWING]->(following:User {userId: $followingId}) RETURN r";
+    const relationshipExistsResult = await executeReadTransaction(
+      relationshipExistsQuery,
+      { followerId, followingId }
+    );
+
+    if (relationshipExistsResult.records[0]) {
+      return res.status(400).send({ error: "Relationship already exists." });
+    }
+
+    const createRelationshipQuery =
+      "MATCH (follower:User {userId: $followerId}), (following:User {userId: $followingId}) CREATE (follower)-[:IS_FOLLOWING]->(following) RETURN follower, following";
+    const createRelationshipResult = await executeWriteTransaction(
+      createRelationshipQuery,
+      { followerId, followingId }
+    );
+
+    const follower =
+      createRelationshipResult.records[0].get("follower").properties;
+    const following =
+      createRelationshipResult.records[0].get("following").properties;
+
+    logger.info("Created relationship IS_FOLLOWING.");
+    return res.status(200).send({ success: true, follower, following });
+  } catch (error) {
+    logger.error(`Couldnt execute "followUser": ${error.message}`);
+    return res.status(500).send({ error: "Internal server error." });
+  }
+};
+
 module.exports = {
   changeDescription,
+  followUser,
 };

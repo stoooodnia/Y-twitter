@@ -7,10 +7,10 @@ const registerUser = async (req, res) => {
   try {
     // todo: add validation for req.body
     await register(req.body);
-    res.status(201).redirect("/auth/login");
+    res.status(201);
   } catch (err) {
     logger.error(`Error registering user: ${err}`);
-    res.status(err.status).redirect("/auth/register");
+    res.status(err.status).send({ error: err.message });
   }
 };
 
@@ -37,7 +37,7 @@ const logout = (req, res, next) => {
         res
           .status(200)
           .clearCookie("connect.sid", { path: "/" })
-          .json({ status: "Success" });
+          .send({ status: "Success" });
       } else {
         logger.error(`Error destroying session: ${err}`);
         return next(err);

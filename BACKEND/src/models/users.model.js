@@ -6,6 +6,7 @@ const {
   executeWriteTransaction,
 } = require("../config/db.config");
 const { v4: uuidv4 } = require("uuid");
+const MyError = require("../utils/MyError.js");
 
 /**
  * Register a new user in the Neo4j database.
@@ -33,7 +34,7 @@ async function register(userData) {
     );
 
     if (existingUserResult.records.length > 0) {
-      throw new Error(
+      throw new MyError(
         "User with the provided email or username already exists",
         409
       );
@@ -61,10 +62,13 @@ async function register(userData) {
       const createdUser = result.records[0].get("user").properties;
       return createdUser;
     } else {
-      throw new Error("Failed to create user", 500);
+      throw new MyError("Failed to create user", 500);
     }
   } catch (error) {
-    throw new Error(`Error during user registration: ${error.message}`, 500);
+    throw new MyError(
+      `Error during user registration: ${error.message}`,
+      error.status
+    );
   }
 }
 
