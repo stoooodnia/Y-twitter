@@ -51,8 +51,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // routes
-
 const isAuthenticated = require("./middlewares/isAuthenticated.middleware.js");
+
 app.use("/auth", require("./routes/auth.route.js"));
 app.use("/user", isAuthenticated, require("./routes/user.route.js"));
+app.use("/post", isAuthenticated, require("./routes/post.route.js"));
+
+// app exports
 module.exports = app;
