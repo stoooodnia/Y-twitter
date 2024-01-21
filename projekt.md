@@ -4,7 +4,7 @@ W oparciu o (i z wykorzystaniem) `Node.js` i biblioteki `Socket.io` oraz `Vue.js
 
 - Wersja na ocenę __<= 3.5__
   - rejestracja w serwisie i logowanie do serwera (minimum to wykorzystanie `passport-local`)
-  - tworzenie/definiowanie wizytówki użytkownika konta zawierającej, niędzy innymi, „awatar” (wizytówka określa co inni użytkownicy widzą na nasz temat)
+  - tworzenie/definiowanie wizytówki użytkownika konta zawierającej, między innymi, „awatar” (wizytówka określa co inni użytkownicy widzą na nasz temat)
   - obserwowanie innych użytkowników
   - inicjowanie oraz uczestnictwo w „wątkach” (zamieszczamy w nich wyłącznie wpisy tekstowe)
   - odpowiadanie na wpisy („odpowiedź” generuje potencjalne „rozgałęzienie wątku”)

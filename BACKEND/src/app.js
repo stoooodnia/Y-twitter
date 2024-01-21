@@ -7,8 +7,12 @@ const app = express();
 
 // logger setup
 const logger = require("./config/logger.config.js");
-// const pinoHttp = require("pino-http");
-// app.use(pinoHttp({ logger, prettyPrint: true })); // log all requests
+const pinoHttp = require("pino-http");
+app.use(pinoHttp({ logger, prettyPrint: true })); // log all requests
+
+// cors
+const cors = require("cors");
+app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 
 // req, res parsing
 app.use(express.urlencoded({ extended: false }));
