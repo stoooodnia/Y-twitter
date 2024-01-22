@@ -1,12 +1,12 @@
 const passportLocal = require("passport-local");
-const { executeCypherQuery } = require("./db.config.js");
+const { executeReadTransaction } = require("./db.config.js");
 const bcrypt = require("bcrypt");
 const logger = require("./logger.config.js");
 
 module.exports = function initializePassport(passport) {
   const validateUser = (username, password, done) => {
     const query = "MATCH (user:User {username: $username}) RETURN user";
-    executeCypherQuery(query, { username })
+    executeReadTransaction(query, { username })
       .then((result) => {
         // parsing result
         const user = result.records[0]
@@ -38,7 +38,7 @@ module.exports = function initializePassport(passport) {
   passport.serializeUser((user, done) => done(null, user.userId));
   passport.deserializeUser((userId, done) => {
     const query = "MATCH (user:User) WHERE user.userId = $userId RETURN user";
-    executeCypherQuery(query, { userId })
+    executeReadTransaction(query, { userId })
       .then((result) => {
         // parsing result
         const user = result.records[0]

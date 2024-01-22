@@ -35,22 +35,10 @@ const neo4j = () => {
   return neo4jDriver;
 };
 
-const executeCypherQuery = async (statement, params = {}) => {
-  try {
-    const session = neo4j().session();
-    const result = await session.run(statement, params);
-    session.close();
-    return result;
-  } catch (error) {
-    logger.error("Neo4j query error: ", error);
-    throw new Error(error);
-  }
-};
-
 const executeWriteTransaction = async (statement, params = {}) => {
   try {
     const session = neo4j().session();
-    const result = await session.writeTransaction((txc) =>
+    const result = await session.executeWrite((txc) =>
       txc.run(statement, params)
     );
     session.close();
@@ -64,7 +52,7 @@ const executeWriteTransaction = async (statement, params = {}) => {
 const executeReadTransaction = async (statement, params = {}) => {
   try {
     const session = neo4j().session();
-    const result = await session.readTransaction((txc) =>
+    const result = await session.executeRead((txc) =>
       txc.run(statement, params)
     );
     session.close();
@@ -78,7 +66,6 @@ const executeReadTransaction = async (statement, params = {}) => {
 module.exports = {
   configNeo4j,
   neo4j,
-  executeCypherQuery,
   executeWriteTransaction,
   executeReadTransaction,
 };
