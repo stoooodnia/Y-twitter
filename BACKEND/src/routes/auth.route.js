@@ -6,6 +6,7 @@ const {
   registerUser,
   loginAuthenticate,
   logout,
+  checkSession,
 } = require("../controllers/auth.controller.js");
 
 // register new user
@@ -16,5 +17,8 @@ router.post("/login", passport.authenticate("local"), loginAuthenticate);
 
 // logout user
 router.post("/logout", logout);
+
+// check session
+router.get("/check-session", checkSession);
 
 module.exports = router;

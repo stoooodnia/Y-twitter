@@ -46,8 +46,17 @@ const logout = (req, res, next) => {
   });
 };
 
+// check if user is authenticated
+const checkSession = (req, res) => {
+  logger.info("Checking session");
+  const sessionActive = req.isAuthenticated();
+  logger.warn(`Session active: ${sessionActive}`);
+  res.status(200).send({ sessionActive });
+};
+
 module.exports = {
   registerUser,
   loginAuthenticate,
   logout,
+  checkSession,
 };
