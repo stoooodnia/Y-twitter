@@ -5,5 +5,5 @@ module.exports = function isAuthenticated(req, res, next) {
     return next();
   }
   logger.error("Unauthorized access attempt");
-  res.status(401).redirect("/auth/login");
+  res.status(401);
 };

@@ -9,6 +9,7 @@
         <RouterLink to="/login">Login</RouterLink>
         <RouterLink to="/register">Register</RouterLink>
         <RouterLink to="/profile">Profile</RouterLink>
+        <RouterLink to="/test">Test</RouterLink>
       </nav>
     </div>
   </header>

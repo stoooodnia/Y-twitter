@@ -9,16 +9,10 @@ const apiClient = axios.create({
 });
 
 export default {
-  login(data) {
-    return apiClient.post("/login", data);
-  },
-  getPerson(id) {
-    return apiClient.get("/persons/" + id);
-  },
-  addPerson(person) {
-    return apiClient.post("/persons/", person);
-  },
-  editPerson(id, person) {
-    return apiClient.put("/persons/" + id, person);
+  changeDescription(userId, description) {
+    return apiClient.patch(`/user/change-description`, {
+      userId: userId,
+      newDescription: description,
+    });
   },
 };
