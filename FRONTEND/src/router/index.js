@@ -1,3 +1,4 @@
+import { authGuard } from "@/guard/authGuard";
 import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
@@ -27,6 +28,7 @@ const router = createRouter({
       path: "/test",
       name: "test",
       component: () => import("../views/TestView.vue"),
+      beforeEnter: authGuard,
     },
   ],
 });

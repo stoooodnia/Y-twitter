@@ -51,7 +51,7 @@
   </template>
   
   <script>
-    import authClient from "@/services/auth.service.js";
+    import authClient from "@/services/authService.js";
     export default {
       data() {
         return {

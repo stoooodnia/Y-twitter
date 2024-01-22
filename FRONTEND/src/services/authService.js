@@ -18,4 +18,7 @@ export default {
   logout() {
     return authClient.post("/logout");
   },
+  isAuthenticated() {
+    return authClient.get("/is-auth");
+  },
 };

@@ -20,7 +20,7 @@
   </template>
   
   <script>
-  import dataService from "@/services/data.service.js";
+  import dataService from "@/services/dataService.js";
   export default {
     data() {
       return {
