@@ -31,8 +31,8 @@ initDatabase.configNeo4j();
 // session storage setup
 const { neo4j } = require("./config/db.config.js");
 const expressSession = require("express-session");
-const NeoStore = require("connect-neo4j-user")(expressSession);
-const neoStore = new NeoStore({ client: neo4j() });
+const MemoryStore = require("memorystore")(expressSession);
+const memoryStore = new MemoryStore({ checkPeriod: 60 * 1000 }); // 1 minute
 
 const secret = process.env.SECRET_KEY || "super secret key";
 
@@ -41,8 +41,11 @@ app.use(
     secret: secret,
     resave: false,
     saveUninitialized: false,
-    expires: 1000 * 60 * 1, // 1 minute
-    store: neoStore,
+    cookie: {
+      maxAge: 1000 * 60 * 10,
+      expires: 1000 * 60 * 10,
+    },
+    store: memoryStore,
   })
 );
 
