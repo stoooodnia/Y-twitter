@@ -15,4 +15,7 @@ export default {
       newDescription: description,
     });
   },
+  getPostsByUserId(userId) {
+    return apiClient.get(`/user/posts/${userId}`);
+  },
 };

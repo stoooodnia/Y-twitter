@@ -18,7 +18,7 @@ const addPost = async (req, res) => {
     }
 
     const createPostQuery =
-      "MATCH (user:User {userId: $userId}) CREATE (user)-[:POSTED]->(post:Post {content: $content, createdAt: timestamp()}) RETURN post";
+      "MATCH (user:User {userId: $userId}) CREATE (user)-[:POSTED]->(post:Post {content: $content, createdAt: datetime()}) RETURN post";
     const createPostResult = await executeWriteTransaction(createPostQuery, {
       userId,
       content,

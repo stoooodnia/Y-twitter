@@ -52,6 +52,7 @@
   
   <script>
     import authClient from "@/services/authService.js";
+    import { useAuthStore } from "@/stores/counter";
     export default {
       data() {
         return {
@@ -60,7 +61,6 @@
         };
       },
       methods: {
-        
         login() {
           const data = {
             username: this.username,
@@ -69,7 +69,8 @@
           console.log(data);
           console.log("Logging in...");
           authClient.login(data).then((response) => {
-            console.log(response);
+            const user = response.data
+            useAuthStore().setUser(user);
             this.$router.push({ path: "/home" });
           });
         },
