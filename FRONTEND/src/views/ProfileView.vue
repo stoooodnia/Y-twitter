@@ -62,7 +62,8 @@ export default {
     };
   },
   created() {
-    // this.getPostsOfUser();
+    console.log(this.user.userId)
+    this.getPostsOfUser(this.user.userId);
   },
   methods: {
     getPostsOfUser() {

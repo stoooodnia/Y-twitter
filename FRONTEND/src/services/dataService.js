@@ -16,6 +16,7 @@ export default {
     });
   },
   getPostsByUserId(userId) {
+    console.log(typeof userId);
     return apiClient.get(`/posts/user/${userId}`);
   },
 };
