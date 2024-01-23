@@ -18,7 +18,7 @@ const addPost = async (req, res) => {
     }
 
     const createPostQuery =
-      "MATCH (user:User {userId: $userId}) CREATE (user)-[:POSTED]->(post:Post {content: $content, createdAt: datetime()}) RETURN post";
+      "MATCH (user:User {userId: $userId}) CREATE (user)-[:POSTED]->(post:Post {content: $content, createdAt: datetime(), authorName: user.username, authorId: $userId}) RETURN post";
     const createPostResult = await executeWriteTransaction(createPostQuery, {
       userId,
       content,
@@ -34,4 +34,36 @@ const addPost = async (req, res) => {
   }
 };
 
-module.exports = { addPost };
+const getPostsByUserId = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    // Sprawdź, czy użytkownik istnieje
+    const userExistsQuery = "MATCH (user:User {userId: $userId}) RETURN user";
+    const userExistsResult = await executeReadTransaction(userExistsQuery, {
+      userId,
+    });
+
+    if (!userExistsResult.records[0]) {
+      return res.send({ error: "User does not exist." });
+    }
+
+    // Pobierz posty danego użytkownika
+    const getPostsQuery =
+      "MATCH (user:User {userId: $userId})-[:POSTED]->(post:Post) RETURN post";
+    const getPostsResult = await executeReadTransaction(getPostsQuery, {
+      userId,
+    });
+
+    const posts = getPostsResult.records.map(
+      (record) => record.get("post").properties
+    );
+
+    return res.status(200).send({ success: true, posts });
+  } catch (error) {
+    console.error(`Error fetching posts by user ID: ${error.message}`);
+    return res.status(500).send({ error: "Internal Server Error" });
+  }
+};
+
+module.exports = { addPost, getPostsByUserId };

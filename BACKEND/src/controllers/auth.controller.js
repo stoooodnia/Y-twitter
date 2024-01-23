@@ -21,6 +21,7 @@ const loginAuthenticate = (req, res) => {
     userId: req.user.userId,
     username: req.user.username,
     email: req.user.email,
+    description: req.user.description,
   });
 };
 

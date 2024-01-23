@@ -30,20 +30,17 @@
         <div class="mt-6">
           <div class="flex justify-between items-center">
             <div>
-              <h1 class="text-2xl font-bold">{{ userName }}</h1>
-              <p class="text-sm text-gray-400">@{{ userHandle }}</p>
+              <h1 class="text-2xl font-bold">{{ user.username }}</h1>
+              <p class="text-sm text-gray-400">@{{ user.userId}}</p>
             </div>
           </div>
           <div class="mt-6">
-            <p class="text-sm text-gray-300">{{ userBio }}</p>
+            <p class="text-sm text-gray-300">Bio: {{ user.description }}</p>
           </div>
         </div>
       </div>
       <div class="mt-12 space-y-8">
-        <Post :post="tweet1" />
-        <Post :post="tweet2" />
-        <Post :post="tweet2" />
-        <Post :post="tweet2" />
+        <Post v-for="post in posts" :key="post.createdAt" :post="post"  />
       </div>
     </main>
   </div>
@@ -52,22 +49,27 @@
 <script>
 import Post from "@/components/Post.vue";
 import dataService from "@/services/dataService.js";
-import { useAuthStore } from "@/stores/counter";
+import { useAuthStore } from "@/stores/authStore.js";
 
 export default {
   components: {
     Post,
   },
   data() {
-    return {  
+    return {
+      user: useAuthStore().user,
       posts: []
     };
   },
+  created() {
+    // this.getPostsOfUser();
+  },
   methods: {
     getPostsOfUser() {
-          const userId = useAuthStore().user.id;
+          const userId = useAuthStore().user
           dataService.getPostsByUserId(userId).then((response) => {
             this.posts = response.data;
+            console.log(this.posts)
           });
         },
   }

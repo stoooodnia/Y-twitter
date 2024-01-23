@@ -13,10 +13,10 @@
           </span>
           <div class="grid gap-1">
             <div class="font-semibold">{{ post.authorName }}</div>
-            <div class="line-clamp-1 text-xs">@{{ post.authorHandle }}</div>
+            <div class="line-clamp-1 text-xs">@{{ post.authorId }}</div>
           </div>
         </div>
-        <div class="ml-auto text-xs text-gray-500">{{ post.timestamp }}</div>
+        <div class="ml-auto text-xs text-gray-500">{{ post.createdAt }}</div>
       </div>
       <div
         class="flex-1 whitespace-pre-wrap p-4 text-sm prose prose-sm prose-p:leading-normal"
