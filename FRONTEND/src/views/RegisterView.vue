@@ -1,12 +1,11 @@
 <template>
-    <div class="bg-gray-800 h-screen flex items-center justify-center">
-      <div class="bg-gray-900 p-8 rounded-lg shadow-md w-96">
+    <div class="bg-zinc-950 h-screen flex items-center justify-center">
+      <div class="bg-black p-8 rounded-lg shadow-md w-96">
         <h1 class="text-white text-2xl font-bold mb-6">Create an Account</h1>
   
-        <!-- Registration form -->
         <div class="mb-4">
-          <label for="fullname" class="block text-gray-300 text-sm font-bold mb-2">Username</label>
-          <input v-model="fullName" type="text" id="fullname" name="fullname" class="w-full px-3 py-2 border border-gray-600 rounded focus:outline-none focus:border-blue-500 bg-gray-700 text-white">
+          <label for="username" class="block text-gray-300 text-sm font-bold mb-2">Username</label>
+          <input v-model="username" type="text" id="username" name="username" class="w-full px-3 py-2 border border-gray-600 rounded focus:outline-none focus:border-blue-500 bg-gray-700 text-white">
         </div>
   
         <div class="mb-4">
@@ -24,13 +23,14 @@
         </button>
   
         <div class="mt-4">
-          <p class="text-gray-400 text-sm">Already have an account? <a href="#" class="text-blue-500 hover:underline">Log in here</a></p>
+          <p class="text-gray-400 text-sm">Already have an account? <a href="/login" class="text-blue-500 hover:underline">Log in here</a></p>
         </div>
       </div>
     </div>
   </template>
   
   <script>
+  import authClient from "@/services/authService.js";
   export default {
     data() {
       return {
@@ -41,8 +41,19 @@
     },
     methods: {
       register() {
-        // Add your registration logic here
         console.log('Registering...');
+        const data = {
+            username: this.username,
+            email: this.email,
+            password: this.password,
+          };
+          authClient.register(data).then((response) => {
+            if(response.status === 201) {
+
+              this.$router.push({ path: "/login" });
+            }
+            this.$router.push({ path: "/home" });
+          });
       },
     },
   };

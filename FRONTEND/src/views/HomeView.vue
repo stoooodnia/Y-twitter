@@ -25,22 +25,23 @@
         Dołącz już dziś.
       </h2>
     
-      <button
+      <a
+        href="/register"
         class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 bg-blue-600 text-white w-full sm:w-3/4 lg:w-1/2 xl:w-1/3"
       >
         Utwórz konto
-      </button>
+    </a>
       <p class="text-gray-500 text-sm mt-4 mb-8 text-center">
         Rejestrując się, zgadzasz się na Warunki korzystania i Politykę prywatności,
         łącznie z Polityką ciasteczek.  
       </p>
       <div class="border-t border-gray-700 pt-4 w-full sm:w-3/4 lg:w-1/2 xl:w-1/3">
         <p class="text-sm mb-4 text-center">Masz już konto?</p>
-        <button
+        <a href="/login"
           class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90 h-10 px-4 py-2 bg-transparent border border-white text-white w-full"
         >
           Zaloguj się
-        </button>
+      </a>
       </div>
       <footer
         class="absolute bottom-0 w-full text-gray-500 text-sm py-4 px-4 sm:px-8 lg:px-16"

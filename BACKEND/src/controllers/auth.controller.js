@@ -6,8 +6,9 @@ const registerUser = async (req, res) => {
   logger.info("Registering user");
   try {
     // todo: add validation for req.body
+    logger.warn(req.body);
     await register(req.body);
-    res.status(201);
+    res.status(201).send({ success: true });
   } catch (err) {
     logger.error(`Error registering user: ${err}`);
     res.status(err.status).send({ error: err.message });

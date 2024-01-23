@@ -1,6 +1,6 @@
 <template>
-    <div class="bg-gray-800 h-screen flex items-center justify-center">
-      <div class="bg-gray-900 p-8 rounded-lg shadow-md w-96">
+    <div class="bg-zinc-950 h-screen flex items-center justify-center">
+      <div class="bg-black p-8 rounded-lg shadow-md w-96">
         <h1 class="text-white text-2xl font-bold mb-6">Login to Twitter</h1>
         <div class="mb-4">
           <label for="username" class="block text-gray-300 text-sm font-bold mb-2"
@@ -43,7 +43,7 @@
         <div class="mt-6">
           <p class="text-gray-400 text-sm">
             Don't have an account?
-            <a href="#" class="text-blue-500 hover:underline">Sign up here</a>
+            <a href="/register" class="text-blue-500 hover:underline">Sign up here</a>
           </p>
         </div>
       </div>
@@ -72,7 +72,7 @@
             const user = response.data
             const store = useAuthStore();
             store.setUser(user);
-            this.$router.push({ path: "/home" });
+            this.$router.push({ path: "/profile" });
           });
         },
       },
