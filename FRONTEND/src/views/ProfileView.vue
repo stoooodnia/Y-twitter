@@ -1,5 +1,5 @@
 <template>
-  <div class="dark w-full min-h-screen bg-gray-900 text-white">
+  <div class="dark w-full min-h-screen bg-black text-white">
     <header class="relative h-[200px] overflow-hidden">
       <!-- <img
           src="https://www.solidbackgrounds.com/images/3840x2160/3840x2160-dark-gray-solid-color-background.jpg"
@@ -40,7 +40,39 @@
         </div>
       </div>
       <div class="mt-12 space-y-8">
-        <Post v-for="post in posts" :key="post.createdAt" :post="post"  />
+        <div class="flex justify-start mb-6">
+
+            <button
+              @click="setCurrentView('POSTS')"
+              :class="{ 'font-bold': currentView === 'POSTS' }"
+              class="text-white focus:outline-none w-32 h-12 hover:bg-zinc-900"
+            >
+            <span
+            :class="{ 'font-bold border-b-2 border-blue-600': currentView === 'POSTS' }"
+            class="h-12 w-20"
+            >
+              POSTS
+            </span>
+            </button>
+            <button
+              @click="setCurrentView('REPLIES')"
+              :class="{ 'font-bold': currentView === 'REPLIES' }"
+              class="text-white focus:outline-none w-32 h-12 hover:bg-zinc-900"
+            >
+            <span
+            :class="{ 'font-bold border-b-2 border-blue-600': currentView === 'REPLIES' }"
+            class="h-12 w-20"
+            >
+              REPLIES
+            </span>
+        
+            </button>
+          </div>
+          <Post
+            v-for="post in filteredPosts"
+            :key="post.createdAt"
+            :post="post"
+          />
       </div>
     </main>
   </div>
@@ -59,19 +91,32 @@ export default {
   data() {
     return {
       user: toRaw(useAuthStore().user),
-      posts: []
+      posts: [],
+      currentView: 'POSTS', // Początkowy widok
     };
   },
   created() {
     this.getPostsOfUser(this.user.userId);
   },
+  computed: {
+    filteredPosts() {
+      if (this.currentView === 'POSTS') {
+        return this.posts.filter(post => !post.isReply); // Filtruj POSTS
+      } else if (this.currentView === 'REPLIES') {
+        return this.posts.filter(post => post.isReplay); // Filtruj REPLIES
+      }
+      return this.posts; // Domyślnie zwróć wszystkie posty
+    },
+  },
   methods: {
     getPostsOfUser() {
-          dataService.getPostsByUserId(this.user.userId).then((response) => {
-            this.posts = response.data.posts;
-            console.log(this.posts)
-          });
-        },
+      dataService.getPostsByUserId(this.user.userId).then((response) => {
+        this.posts = response.data.posts;
+      });
+    },
+    setCurrentView(view) {
+      this.currentView = view;
+    },
   }
 };
 </script>

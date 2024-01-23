@@ -18,7 +18,7 @@ const addPost = async (req, res) => {
     }
 
     const createPostQuery =
-      "MATCH (user:User {userId: $userId}) CREATE (user)-[:POSTED]->(post:Post {content: $content, createdAt: toString(datetime()), authorName: user.username, authorId: $userId}) RETURN post";
+      "MATCH (user:User {userId: $userId}) CREATE (user)-[:POSTED]->(post:Post {content: $content, createdAt: toString(datetime()), authorName: user.username, authorId: $userId, isReply: false}) RETURN post";
     const createPostResult = await executeWriteTransaction(createPostQuery, {
       userId,
       content,
@@ -58,7 +58,7 @@ const getPostsByUserId = async (req, res) => {
     const posts = getPostsResult.records.map(
       (record) => record.get("post").properties
     );
-    logger.warn(typeof posts);
+
     return res.status(200).send({ success: true, posts });
   } catch (error) {
     console.error(`Error fetching posts by user ID: ${error.message}`);

@@ -19,4 +19,5 @@ export const useAuthStore = defineStore({
       this.user = null;
     },
   },
+  persist: true,
 });

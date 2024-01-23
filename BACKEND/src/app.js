@@ -29,7 +29,6 @@ const initDatabase = require("./config/db.config.js");
 initDatabase.configNeo4j();
 
 // session storage setup
-const { neo4j } = require("./config/db.config.js");
 const expressSession = require("express-session");
 const MemoryStore = require("memorystore")(expressSession);
 const memoryStore = new MemoryStore({ checkPeriod: 60 * 1000 }); // 1 minute
@@ -43,7 +42,6 @@ app.use(
     saveUninitialized: false,
     cookie: {
       maxAge: 1000 * 60 * 10,
-      expires: 1000 * 60 * 10,
     },
     store: memoryStore,
   })
