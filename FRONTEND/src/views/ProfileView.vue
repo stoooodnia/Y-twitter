@@ -50,6 +50,7 @@
 import Post from "@/components/Post.vue";
 import dataService from "@/services/dataService.js";
 import { useAuthStore } from "@/stores/authStore.js";
+import { toRaw } from "vue";
 
 export default {
   components: {
@@ -57,19 +58,17 @@ export default {
   },
   data() {
     return {
-      user: useAuthStore().user,
+      user: toRaw(useAuthStore().user),
       posts: []
     };
   },
   created() {
-    console.log(this.user.userId)
     this.getPostsOfUser(this.user.userId);
   },
   methods: {
     getPostsOfUser() {
-          const userId = useAuthStore().user
-          dataService.getPostsByUserId(userId).then((response) => {
-            this.posts = response.data;
+          dataService.getPostsByUserId(this.user.userId).then((response) => {
+            this.posts = response.data.posts;
             console.log(this.posts)
           });
         },

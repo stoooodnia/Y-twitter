@@ -3,7 +3,8 @@ import { createPinia, defineStore } from "pinia";
 
 export const pinia = createPinia();
 
-export const useAuthStore = defineStore("auth", {
+export const useAuthStore = defineStore({
+  id: "auth",
   state: () => {
     return {
       user: {},
