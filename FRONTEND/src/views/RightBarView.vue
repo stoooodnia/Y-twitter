@@ -1,10 +1,10 @@
 <template>
     <div class="sticky top-0 h-screen">
-        <SearchBarView/>
+        <SearchBar/>
     </div>
 
 </template>
 
 <script setup>
-import SearchBarView from '@/views/SearchBarView.vue';
+import SearchBar from '@/components/SearchBar.vue';
 </script>
