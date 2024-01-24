@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="sticky top-0 h-screen">
         <SearchBarView/>
     </div>
 
