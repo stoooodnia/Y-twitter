@@ -35,6 +35,9 @@
         >
           Log in
         </button>
+        <div v-if="error" class="text-red-500 mt-2">
+          {{ error }}
+        </div>
   
         <div class="mt-4">
           <a href="#" class="text-blue-500 hover:underline">Forgot password?</a>
@@ -58,6 +61,7 @@
         return {
           username: "",
           password: "",
+          error: null,
         };
       },
       methods: {
@@ -73,6 +77,8 @@
             const store = useAuthStore();
             store.setUser(user);
             this.$router.push({ path: "/profile" });
+          }).catch(() => {
+            this.error = "Invalid username or password";
           });
         },
       },
