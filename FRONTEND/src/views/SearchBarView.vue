@@ -1,18 +1,5 @@
 <template>
-    <div class="dark w-full min-h-screen bg-gray-900 text-white">
-      <header class="relative h-[200px] overflow-hidden">
-        <!-- Placeholder dla obrazu tła -->
-        <img
-          src="https://www.solidbackgrounds.com/images/3840x2160/3840x2160-dark-gray-solid-color-background.jpg"
-          alt="Cover Image"
-          width="1200"
-          height="400"
-          class="absolute inset-0 object-cover w-full h-full"
-          style="aspect-ratio: 1200 / 400; object-fit: cover"
-        />
-      </header>
-      <main class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Treść strony -->
+      <main class="max-w-2xl px-4 sm:px-6 lg:px-8 text-white">
         <div class="mt-8">
           <div class="flex items-center mb-4" @mouseover="showResults">
             <!-- Pole wprowadzania tekstu -->
@@ -46,7 +33,7 @@
           <div @mouseover="showResults" @mouseleave="hideResults">
             <ul v-show="resultDisplay" v-if="searchResults.length > 0" class="mt-8">
               <li v-for="profile in searchResults" :key="profile.userId" class="mb-4">
-                <h3 class="text-lg font-bold">{{ profile.username }}</h3>
+                <h3 class="text-sm font-bold">{{ profile.username }}</h3>
                 <p class="text-gray-400">{{ profile.description }}</p>
               </li>
             </ul>
@@ -55,7 +42,6 @@
         </div>
         </div>
       </main>
-    </div>
   </template>
   
   <script>
