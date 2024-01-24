@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-zinc-950 h-screen w-full flex items-center justify-center">
+    <div class="bg-zinc-900 h-screen w-full flex items-center justify-center">
       <div class="bg-black p-8 rounded-lg shadow-md w-96">
         <h1 class="text-white text-2xl font-bold mb-6">Login to Twitter</h1>
         <div class="mb-4">
