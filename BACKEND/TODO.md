@@ -2,4 +2,5 @@
 2. Fix navigation so it appears only on profile logged state
 3. Navigate to editProfile after registration
 <!-- 4. Fix scroll somehow.. -->
-4. Add no-connection subsite + healthcare for connection
+4. Add no-connection page + healthcare for connection
+5. Add 404 page

@@ -1,5 +1,5 @@
 <template>   
-      <div class="flex flex-col w-64 fixed">
+      <div class="flex flex-col w-64 sticky top-0 h-screen">
         <div class="flex items-center justify-center mt-6 ">
           <svg
             xmlns="http://www.w3.org/2000/svg"

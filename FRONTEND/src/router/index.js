@@ -27,9 +27,9 @@ const router = createRouter({
       beforeEnter: authGuard,
     },
     {
-      path: "/test",
-      name: "test",
-      component: () => import("../views/TestView.vue"),
+      path: "/posts",
+      name: "posts",
+      component: () => import("../views/PostsView.vue"),
       beforeEnter: authGuard,
     },
     {

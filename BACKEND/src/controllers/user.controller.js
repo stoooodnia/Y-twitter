@@ -97,7 +97,47 @@ const followUser = async (req, res) => {
   }
 };
 
+const searchProfiles = async (req, res) => {
+  try {
+    const { searchQuery } = req.params;
+
+    const searchQueryRegex = `(?i).*${searchQuery}.*`;
+
+    let searchProfilesQuery;
+    if (searchQuery === "undefined") {
+      searchProfilesQuery = `
+      MATCH (user:User)
+      RETURN user
+      LIMIT 4
+    `;
+    } else {
+      searchProfilesQuery = `
+      MATCH (user:User)
+      WHERE user.username =~ $searchQueryRegex
+      RETURN user
+      LIMIT 4
+    `;
+    }
+
+    const searchProfilesResult = await executeReadTransaction(
+      searchProfilesQuery,
+      { searchQueryRegex }
+    );
+
+    const profiles = searchProfilesResult.records.map(
+      (record) => record.get("user").properties
+    );
+
+    logger.info("Found profiles.");
+    return res.status(200).send({ success: true, profiles });
+  } catch (error) {
+    logger.error(`Couldnt execute "searchProfiles": ${error.message}`);
+    return res.status(500).send({ error: "Internal server error." });
+  }
+};
+
 module.exports = {
   changeProfile,
   followUser,
+  searchProfiles,
 };

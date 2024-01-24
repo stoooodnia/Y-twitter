@@ -15,4 +15,8 @@ export default {
   getPostsByUserId(userId) {
     return apiClient.get(`/posts/user/${userId}`);
   },
+  searchProfiles(searchQuery) {
+    console.log(searchQuery);
+    return apiClient.get(`/user/search/${searchQuery}`);
+  },
 };
