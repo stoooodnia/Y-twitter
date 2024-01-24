@@ -1,7 +1,6 @@
 <template>
     
       <div class="flex flex-col w-64">
-        <!-- Logo -->
         <div class="flex items-center justify-center mt-6">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -19,8 +18,6 @@
             <path d="M12 12 L12 18"></path>
             </svg>
         </div>
-  
-        <!-- Nawigacja -->
         <nav class="mt-10 px-2 space-y-1">
           <RouterLink
             to="/home"

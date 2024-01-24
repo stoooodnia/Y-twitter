@@ -45,7 +45,5 @@
   };
   </script>
   
-  <style scoped>
-  /* Dodaj style według potrzeb */
-  </style>
+
   

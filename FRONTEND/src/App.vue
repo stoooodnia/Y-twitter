@@ -1,7 +1,7 @@
 <template>
-    <div class="dark h-screen flex overflow-hidden bg-black">
-      <NavBarView />
-      <RouterView class="w-screen"/>
+    <div class="flex bg-black">
+      <NavBarView class="fixed"/>
+      <RouterView class=""/>
 </div>
 </template>
 

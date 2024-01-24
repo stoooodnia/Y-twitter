@@ -1,18 +1,21 @@
 import authService from "@/services/authService";
 
-export const authGuard = (to, from, next) => {
-  authService.isAuthenticated().then((response) => {
+export const authGuard = async (to, from, next) => {
+  try {
+    const response = await authService.isAuthenticated();
     const isAuthenticated = response.data.isAuthenticated;
-    if (isAuthenticated && to.name === "Home") {
-      {
-        next("/posts");
-      }
-      next();
-    }
+
     if (isAuthenticated) {
-      next();
+      if (to.name === "home") {
+        next({ name: "profile" });
+      } else {
+        next();
+      }
     } else {
-      next("/home");
+      next({ name: "home" });
     }
-  });
+  } catch (error) {
+    console.error("Error in authGuard:", error);
+    next({ name: "home" });
+  }
 };
