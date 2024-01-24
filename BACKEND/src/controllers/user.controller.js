@@ -40,7 +40,7 @@ const changeProfile = async (req, res) => {
     const updatedUser = updateResult.records[0].get("user").properties;
 
     logger.info("Updated user profile data");
-    return res.status(200).send({ success: true });
+    return res.status(200).send({ success: true, user: updatedUser });
   } catch (error) {
     logger.error(
       `Error while trying to change profile data of user: ${error.message}`

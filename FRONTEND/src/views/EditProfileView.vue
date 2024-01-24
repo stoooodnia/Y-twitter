@@ -71,12 +71,14 @@
         }
     
         dataService.updateUserProfile(data)
-          .then(() => {
-            this.success = 'Changes saved.';
+          .then((response) => {
             this.error = '';
+            this.succes = 'Changes saved.';
+            console.log(response.body);
+            useAuthStore().setUser(response.body.user);
           })
-          .catch((error) => {
-            this.error = error.response.data.message;
+          .catch(() => {
+            this.error = "Something went wrong!"
           });
         console.log('Changes saved:', data);
       },

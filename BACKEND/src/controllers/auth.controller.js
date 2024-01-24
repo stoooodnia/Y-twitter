@@ -23,6 +23,8 @@ const loginAuthenticate = (req, res) => {
     username: req.user.username,
     email: req.user.email,
     description: req.user.description,
+    profilePicture: req.user.profilePicture,
+    bgPicture: req.user.bgPicture,
   });
 };
 
