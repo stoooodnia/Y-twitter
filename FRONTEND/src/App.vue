@@ -1,7 +1,8 @@
 <template>
-    <div class="dark h-screen flex bg-black">
-      <NavBarView />
-      <RouterView class=""/>
+    <div class="h-screen flex bg-black">
+      <div class="flex flex-col w-80"></div>
+      <NavBarView/>
+      <RouterView/>
 </div>
 </template>
 

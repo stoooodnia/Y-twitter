@@ -1,7 +1,6 @@
-<template>
-    
-      <div class="flex flex-col w-64">
-        <div class="flex items-center justify-center mt-6">
+<template>   
+      <div class="flex flex-col w-64 fixed">
+        <div class="flex items-center justify-center mt-6 ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
