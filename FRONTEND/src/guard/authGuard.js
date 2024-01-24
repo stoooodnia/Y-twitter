@@ -11,6 +11,8 @@ export const authGuard = async (to, from, next) => {
       } else {
         next();
       }
+    } else if (to.name === "home") {
+      next();
     } else {
       next({ name: "home" });
     }

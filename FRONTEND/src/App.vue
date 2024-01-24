@@ -1,6 +1,6 @@
 <template>
-    <div class="flex bg-black">
-      <NavBarView class="fixed"/>
+    <div class="dark h-screen flex overflow-hidden bg-black">
+      <NavBarView />
       <RouterView class=""/>
 </div>
 </template>
