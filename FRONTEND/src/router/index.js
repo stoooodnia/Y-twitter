@@ -32,6 +32,12 @@ const router = createRouter({
       component: () => import("../views/TestView.vue"),
       beforeEnter: authGuard,
     },
+    {
+      path: "/editProfile",
+      name: "editProfile",
+      component: () => import("../views/EditProfileView.vue"),
+      beforeEnter: authGuard,
+    },
   ],
 });
 

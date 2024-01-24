@@ -21,11 +21,12 @@
               >Y</span
             >
           </span>
-          <button
+          <a
             class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 text-white border-white relative z-20 dark:bg-gray-700 dark:hover:bg-gray-600"
-          >
+            href="/editProfile"
+            >
             Edit profile
-          </button>
+        </a>
         </div>
         <div class="mt-6">
           <div class="flex justify-between items-center">

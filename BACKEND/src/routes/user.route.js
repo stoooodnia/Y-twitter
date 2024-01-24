@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const {
-  changeDescription,
+  changeProfile,
   followUser,
 } = require("../controllers/user.controller.js");
 
 // change description
-router.patch("/change-description", changeDescription);
+
+router.put("/update-profile", changeProfile);
 
 // create follow relationship
 router.post("/follow-user", followUser);

@@ -41,7 +41,7 @@ async function register(userData) {
     }
 
     const createUserQuery = `
-        CREATE (user:User { userId: $userId, username: $username, email: $email, password: $password })
+        CREATE (user:User { userId: $userId, username: $username, email: $email, password: $password, description: $description, profilePicture: $profilePicture, bgPicture: $bgPicture })
         RETURN user
       `;
 
@@ -53,6 +53,8 @@ async function register(userData) {
       email: userData.email,
       password: passwordHash,
       description: "",
+      profilePicture: "",
+      bgPicture: "",
     };
 
     const result = await executeWriteTransaction(createUserQuery, params);

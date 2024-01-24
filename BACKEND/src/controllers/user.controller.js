@@ -6,10 +6,11 @@ const {
 
 // change description of user
 
-const changeDescription = async (req, res) => {
+const changeProfile = async (req, res) => {
   logger.info("Trying to change description");
   try {
-    const { userId, newDescription } = req.body;
+    const { userId, newDescription, newProfilePicture, newBgPicture } =
+      req.body;
 
     const userExistsQuery = "MATCH (user:User {userId: $userId}) RETURN user";
     const userExistsResult = await executeReadTransaction(userExistsQuery, {
@@ -21,20 +22,28 @@ const changeDescription = async (req, res) => {
       return res.status(404).send({ error: "Couldn't find user" });
     }
 
-    const updateDescriptionQuery =
-      "MATCH (user:User {userId: $userId}) SET user.description = $newDescription RETURN user";
-    const updateResult = await executeWriteTransaction(updateDescriptionQuery, {
+    const updateProfileQuery = `
+      MATCH (user:User {userId: $userId})
+      SET user.description = $newDescription,
+          user.profilePicture = $newProfilePicture,
+          user.bgPicture = $newBgPicture
+      RETURN user
+    `;
+
+    const updateResult = await executeWriteTransaction(updateProfileQuery, {
       userId,
       newDescription,
+      newProfilePicture,
+      newBgPicture,
     });
 
     const updatedUser = updateResult.records[0].get("user").properties;
 
-    logger.info("Updated user description");
-    return res.status(200).json({ success: true });
+    logger.info("Updated user profile data");
+    return res.status(200).send({ success: true });
   } catch (error) {
     logger.error(
-      `Error while trying to change description of user: ${error.message}`
+      `Error while trying to change profile data of user: ${error.message}`
     );
     return res.status(500).send({ error: "Internal server error" });
   }
@@ -89,6 +98,6 @@ const followUser = async (req, res) => {
 };
 
 module.exports = {
-  changeDescription,
+  changeProfile,
   followUser,
 };

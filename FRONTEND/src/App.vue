@@ -1,5 +1,5 @@
 <template>
-    <div class="dark h-screen flex overflow-hidden bg-black">
+    <div class="dark h-screen flex bg-black">
       <NavBarView />
       <RouterView class=""/>
 </div>

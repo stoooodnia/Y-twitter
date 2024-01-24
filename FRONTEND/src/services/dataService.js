@@ -9,11 +9,8 @@ const apiClient = axios.create({
 });
 
 export default {
-  changeDescription(userId, description) {
-    return apiClient.patch(`/user/change-description`, {
-      userId: userId,
-      newDescription: description,
-    });
+  updateUserProfile(data) {
+    return apiClient.put(`/user/update-profile`, data);
   },
   getPostsByUserId(userId) {
     return apiClient.get(`/posts/user/${userId}`);
