@@ -21,7 +21,7 @@ const router = createRouter({
       component: () => import("../views/LoginView.vue"),
     },
     {
-      path: "/profile",
+      path: "/profile/:userId",
       name: "profile",
       component: () => import("../views/ProfileView.vue"),
       beforeEnter: authGuard,

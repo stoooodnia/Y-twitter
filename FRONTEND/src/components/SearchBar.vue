@@ -28,7 +28,7 @@
           <div @mouseover="showResults" @mouseleave="hideResults">
             <ul v-show="resultDisplay" v-if="searchResults.length > 0" class="pt-4">
               <li v-for="profile in searchResults" :key="profile.userId" class="mb-2 pt-0">
-                <router-link :to="{ name: 'profile', params: { userId: profile.userId } }" class="flex gap-4 items-center bg-black hover:bg-gray-700 rounded-md px-2 py-2">
+                <Router-link :to="{ name: 'profile', params: { userId: profile.userId } }" class="flex gap-4 items-center bg-black hover:bg-gray-700 rounded-md px-2 py-2">
                   <img
                     :src="profile.profilePicture"
                     :alt="profile.username"
@@ -36,7 +36,7 @@
                   />
                   <h3 class="text-sm font-bold bg-transparent">{{ profile.username }}</h3>
                   <FollowButton :profile="profile" />
-                </router-link>
+                </Router-link>
               </li>
             </ul>
 
@@ -50,7 +50,12 @@
   import dataService from "@/services/dataService.js";
   import FollowButton from "./FollowButton.vue";
   import { useAuthStore } from "@/stores/authStore.js";
+  import { RouterLink } from "vue-router";
   export default {
+    components: {
+      FollowButton,
+      RouterLink
+    },
     data() {
         return {
             resultDisplay: false,
@@ -79,8 +84,7 @@
         hideResults() {
             this.resultDisplay = false;
         },
-    },
-    components: { FollowButton }
+    }
 };
   </script>
   

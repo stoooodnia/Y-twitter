@@ -183,9 +183,33 @@ const searchProfiles = async (req, res) => {
   }
 };
 
+const getUserById = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const userExistsQuery = "MATCH (user:User {userId: $userId}) RETURN user";
+    const userExistsResult = await executeReadTransaction(userExistsQuery, {
+      userId,
+    });
+
+    if (!userExistsResult.records[0]) {
+      return res.status(404).send({ error: "User doesnt exist." });
+    }
+
+    const user = userExistsResult.records[0].get("user").properties;
+
+    logger.info("Found user.");
+    return res.status(200).send({ success: true, user });
+  } catch (error) {
+    logger.error(`Couldnt execute "getUserById": ${error.message}`);
+    return res.status(500).send({ error: "Internal server error." });
+  }
+};
+
 module.exports = {
   changeProfile,
   followUser,
   unFollowUser,
   searchProfiles,
+  getUserById,
 };

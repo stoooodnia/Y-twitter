@@ -22,12 +22,15 @@
               >Y</span
             > -->
           </span>
-          <a
+          <a v-if="myProfile"
             class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 text-white border-white relative z-20 dark:bg-gray-700 dark:hover:bg-gray-600"
             href="/editProfile"
             >
             Edit profile
         </a>
+        <FollowButton v-else :profile="user"
+        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 text-white border-white relative z-20 dark:bg-gray-700 dark:hover:bg-gray-600"
+        />
         </div>
         <div class="mt-6">
           <div class="flex justify-between items-center">
@@ -81,6 +84,7 @@
 </template>
 
 <script>
+import FollowButton from "@/components/FollowButton.vue";
 import Post from "@/components/Post.vue";
 import dataService from "@/services/dataService.js";
 import { useAuthStore } from "@/stores/authStore.js";
@@ -89,36 +93,57 @@ import { toRaw } from "vue";
 export default {
   components: {
     Post,
-  },
+    FollowButton
+},
   data() {
     return {
-      user: toRaw(useAuthStore().user),
+      myProfile: false,
+      user: {},
       posts: [],
       currentView: 'POSTS', // Początkowy widok
     };
   },
+  watch: {
+    '$route.params.userId': function(newUserId) {
+      this.posts = [];
+      this.loadUserData(newUserId);
+    },
+  },
   created() {
-    this.getPostsOfUser(this.user.userId);
+    this.loadUserData(this.$route.params.userId);
   },
   computed: {
     filteredPosts() {
+      if (this.posts === undefined) return [];
       if (this.currentView === 'POSTS') {
-        return this.posts.filter(post => !post.isReply); // Filtruj POSTS
+        return this.posts.filter(post => !post.isReply);
       } else if (this.currentView === 'REPLIES') {
-        return this.posts.filter(post => post.isReplay); // Filtruj REPLIES
+        return this.posts.filter(post => post.isReplay);
       }
-      return this.posts; // Domyślnie zwróć wszystkie posty
-    },
+      return this.posts;
+    }
   },
   methods: {
-    getPostsOfUser() {
-      dataService.getPostsByUserId(this.user.userId).then((response) => {
+    loadUserData(userId) {
+      if (userId === useAuthStore().user.userId) {
+        this.myProfile = true;
+        this.user = toRaw(useAuthStore().user);
+      } else {
+        dataService.getUserById(userId).then((response) => {
+          this.user = response.data; // Zakładam, że odpowiedź zawiera dane użytkownika
+        });
+      }
+
+      this.getPostsOfUser(userId);
+    },
+    getPostsOfUser(userId) {
+      dataService.getPostsByUserId(userId).then((response) => {
         this.posts = response.data.posts;
       });
     },
     setCurrentView(view) {
       this.currentView = view;
     },
-  }
+  },
 };
 </script>

@@ -156,7 +156,7 @@
           </RouterLink>
   
           <RouterLink
-            to="/profile"
+            :to="{ name: 'profile', params: { userId: userId } }"
             :class="{ 'bg-gray-900 text-white': page === 'profile', 'text-gray-300 hover:text-white hover:bg-gray-700': page !== 'profile'}"
             class=" flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md "          >
           <svg
@@ -204,16 +204,18 @@
   </template>
   
   <script>
+import { useAuthStore } from '@/stores/authStore';
+
   export default {
     data() {
       return {
         page: "",
+        userId: useAuthStore().user.userId,
       }
     }, 
     watch: {
       $route() {
         this.page = this.$route.name;
-        console.log(this.page);
       }
     }
   }

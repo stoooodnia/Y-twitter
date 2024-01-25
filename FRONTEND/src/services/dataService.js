@@ -16,7 +16,9 @@ export default {
     return apiClient.get(`/posts/user/${userId}`);
   },
   searchProfiles(searchQuery) {
-    console.log(searchQuery);
+    if (searchQuery === "") {
+      return apiClient.get(`/user/search-any`);
+    }
     return apiClient.get(`/user/search/${searchQuery}`);
   },
   follow(data) {
@@ -24,5 +26,8 @@ export default {
   },
   unfollow(data) {
     return apiClient.post(`/user/unfollow/`, data);
+  },
+  getUserById(userId) {
+    return apiClient.get(`/user/${userId}`);
   },
 };

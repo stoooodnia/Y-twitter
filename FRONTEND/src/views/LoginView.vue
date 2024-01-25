@@ -76,7 +76,7 @@
             const user = response.data
             const store = useAuthStore();
             store.setUser(user);
-            this.$router.push({ path: "/profile" });
+            this.$router.push({ name: "profile", params: { userId: user.userId }});
           }).catch(() => {
             this.error = "Invalid username or password";
           });
