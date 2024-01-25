@@ -80,15 +80,15 @@
   </button>
     </div>
     <div v-if="showReplies" class="px-4 py-2 border border-gray-300 rounded-md">
-      <button @click="toggleReplies" class="text-gray-500 hover:text-gray-700 ml-2">
-        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <button @click="toggleReplies" class="text-gray-500 hover:text-gray-700 ml-2 mb-2">
+        <svg class="w-8 h-8 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6m0 12L6 6"/>
         </svg>
       </button>
-      <textarea v-model="newReply" rows="3" class="w-full border border-gray-300 rounded-md mb-2" placeholder="Dodaj komentarz..."></textarea>
-      <button @click="addReply" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">Dodaj komentarz</button>
+      <textarea v-model="newReply" rows="3" class="w-full border border-gray-300 rounded-md mb-2 p-2" placeholder="Add reply..."></textarea>
+      <button @click="addReply" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">Add reply</button>
       <div class="mt-4">
-        <Post v-for="reply in replies" :key="reply.id" class="group flex flex-col gap-4 py-2 px-4 border-b border-gray-600"/>
+        <Post v-for="reply in replies" :key="reply.id" :post="reply" class="group flex flex-col gap-4 py-2 px-4 border-b border-gray-600"/>
       </div>
     </div>
   </div>
@@ -113,6 +113,7 @@ export default {
   },
   methods: {
     toggleReplies() {
+      this.fetchReplies()
       this.showReplies = !this.showReplies;
     },
     addReply() {
@@ -124,6 +125,12 @@ export default {
 
       dataService.addReply(data).then(() => {
         this.newReply = '';
+      });
+      this.fetchReplies();
+    },
+    fetchReplies() {
+      dataService.fetchReplies(this.post.postId).then((res) => {
+        this.replies = res.data.replies;
       });
     },
   },

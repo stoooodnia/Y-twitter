@@ -5,6 +5,7 @@ const {
   getPostsByUserId,
   fetchPosts,
   addReply,
+  fetchReplies,
 } = require("../controllers/post.controller.js");
 
 // router "/post"
@@ -20,5 +21,8 @@ router.get("/fetch/:userId", fetchPosts);
 
 // add reply
 router.post("/add-reply", addReply);
+
+// get replies to a post
+router.get("/fetch-replies/:postId", fetchReplies);
 
 module.exports = router;

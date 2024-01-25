@@ -108,7 +108,6 @@ const addReply = async (req, res) => {
   try {
     const { userId, content, postId } = req.body;
 
-    // Sprawdź, czy użytkownik istnieje
     const userExistsQuery = "MATCH (user:User {userId: $userId}) RETURN user";
     const userExistsResult = await executeReadTransaction(userExistsQuery, {
       userId,
@@ -118,7 +117,6 @@ const addReply = async (req, res) => {
       return res.send({ error: "User does not exist." });
     }
 
-    // Sprawdź, czy post istnieje
     const postExistsQuery = "MATCH (post:Post {postId: $postId}) RETURN post";
     const postExistsResult = await executeReadTransaction(postExistsQuery, {
       postId,
@@ -128,13 +126,14 @@ const addReply = async (req, res) => {
       return res.send({ error: "Post does not exist." });
     }
 
-    // Dodaj odpowiedź
+    const replyId = uuidv4();
     const addReplyQuery = `
       MATCH (user:User {userId: $userId}), (post:Post {postId: $postId})
-      CREATE (user)-[:POSTED]->(reply:Post {content: $content, createdAt: toString(datetime()), authorName: user.username, authorId: $userId, isReply: true})-[:REPLY_TO]->(post)
+      CREATE (user)-[:POSTED]->(reply:Post {content: $content, createdAt: toString(datetime()), authorName: user.username, authorId: $userId, isReply: true, postId: $replyId})-[:REPLY_TO]->(post)
       RETURN reply
     `;
     const addReplyResult = await executeWriteTransaction(addReplyQuery, {
+      replyId,
       userId,
       content,
       postId,
@@ -149,4 +148,43 @@ const addReply = async (req, res) => {
   }
 };
 
-module.exports = { addPost, getPostsByUserId, fetchPosts, addReply };
+const fetchReplies = async (req, res) => {
+  try {
+    const { postId } = req.params;
+
+    const postExistsQuery = "MATCH (post:Post {postId: $postId}) RETURN post";
+    const postExistsResult = await executeReadTransaction(postExistsQuery, {
+      postId,
+    });
+
+    if (!postExistsResult.records[0]) {
+      return res.send({ error: "Post does not exist." });
+    }
+
+    const fetchRepliesQuery = `
+      MATCH (post:Post {postId: $postId})<-[:REPLY_TO]-(reply:Post)
+      RETURN reply
+      ORDER BY reply.createdAt DESC
+    `;
+    const fetchRepliesResult = await executeReadTransaction(fetchRepliesQuery, {
+      postId,
+    });
+
+    const replies = fetchRepliesResult.records.map(
+      (record) => record.get("reply").properties
+    );
+
+    return res.status(200).send({ success: true, replies });
+  } catch (error) {
+    console.error(`Error fetching replies: ${error.message}`);
+    return res.status(500).send({ error: "Internal Server Error" });
+  }
+};
+
+module.exports = {
+  addPost,
+  getPostsByUserId,
+  fetchPosts,
+  addReply,
+  fetchReplies,
+};
