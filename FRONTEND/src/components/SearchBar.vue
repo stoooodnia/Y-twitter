@@ -48,7 +48,8 @@
   
   <script>
   import dataService from "@/services/dataService.js";
-import FollowButton from "./FollowButton.vue";
+  import FollowButton from "./FollowButton.vue";
+  import { useAuthStore } from "@/stores/authStore.js";
   export default {
     data() {
         return {
@@ -67,7 +68,9 @@ import FollowButton from "./FollowButton.vue";
         searchProfiles() {
             dataService.searchProfiles(this.searchQuery)
                 .then((response) => {
-                this.searchResults = response.data.profiles;
+                this.searchResults = response.data.profiles.filter((profile) => {
+                    return profile.userId !== useAuthStore().user.userId;
+                })
             });
         },
         showResults() {

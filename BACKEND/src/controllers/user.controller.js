@@ -53,6 +53,10 @@ const followUser = async (req, res) => {
   try {
     const { followerId, followingId } = req.body;
 
+    if (followerId === followingId) {
+      return res.status(400).send({ error: "You cant follow yourself." });
+    }
+
     const usersExistQuery =
       "MATCH (follower:User {userId: $followerId}), (following:User {userId: $followingId}) RETURN follower, following";
     const usersExistResult = await executeReadTransaction(usersExistQuery, {
@@ -99,6 +103,10 @@ const followUser = async (req, res) => {
 const unFollowUser = async (req, res) => {
   try {
     const { followerId, followingId } = req.body;
+
+    if (followerId === followingId) {
+      return res.status(400).send({ error: "You cant unfollow yourself." });
+    }
 
     const relationshipExistsQuery =
       "MATCH (follower:User {userId: $followerId})-[r:IS_FOLLOWING]->(following:User {userId: $followingId}) RETURN r";
