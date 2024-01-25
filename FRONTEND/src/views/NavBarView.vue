@@ -42,7 +42,7 @@
           </RouterLink>
   
           <RouterLink
-            to="/home"
+            to="/wall"
             :class="{ 'bg-gray-900 text-white': page === 'hom', 'text-gray-300 hover:text-white hover:bg-gray-700': page !== 'hom'}"
             class="flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md "
           >
@@ -61,7 +61,7 @@
               <circle cx="11" cy="11" r="8"></circle>
               <path d="m21 21-4.3-4.3"></path>
             </svg>
-            
+            Wall
           </RouterLink>
   
           <RouterLink
