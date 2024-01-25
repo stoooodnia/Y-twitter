@@ -32,14 +32,36 @@ export default {
             user: {},
         }
     },
+    watch: {
+        
+        profile: {
+            handler: "updateUser",
+            immediate: true,
+        }
+    },
     mounted() {
-        this.user = {
-            ...this.profile,
-            followed: false,
-            hover: false,
-        } 
+        this.updateUser();
     },
     methods: {
+        updateUser() {
+            this.user = {
+                ...this.profile,
+                followed: this.checkFollow(),
+                hover: false,
+            }
+        },
+        checkFollow() {
+            const followerId = useAuthStore().user.userId;
+            const followingId = this.profile.userId;
+            const data = {
+                followerId,
+                followingId
+            }
+            console.log(data);
+            dataService.checkFollow(data).then((res) => {
+                this.user.followed = res.data.following;
+            })
+        },
         follow(followingId) {
             const followerId = useAuthStore().user.userId;
             const data = {

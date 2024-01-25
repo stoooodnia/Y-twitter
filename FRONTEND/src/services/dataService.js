@@ -24,6 +24,9 @@ export default {
   unfollow(data) {
     return apiClient.post(`/user/unfollow/`, data);
   },
+  checkFollow(data) {
+    return apiClient.post(`/user/check-follow/`, data);
+  },
   getUserById(userId) {
     return apiClient.get(`/user/${userId}`);
   },

@@ -138,6 +138,35 @@ const unFollowUser = async (req, res) => {
   }
 };
 
+const checkFollow = async (req, res) => {
+  try {
+    const { followerId, followingId } = req.body;
+
+    if (followerId === followingId) {
+      logger.error("You cant follow yourself");
+      return res.status(400).send({ error: "You cant follow yourself." });
+    }
+
+    const relationshipExistsQuery =
+      "MATCH (follower:User {userId: $followerId})-[r:IS_FOLLOWING]->(following:User {userId: $followingId}) RETURN r";
+    const relationshipExistsResult = await executeReadTransaction(
+      relationshipExistsQuery,
+      { followerId, followingId }
+    );
+
+    if (!relationshipExistsResult.records[0]) {
+      logger.info("Relationship doesnt exist");
+      return res.status(200).send({ success: true, following: false });
+    }
+
+    logger.info("Relationship exists");
+    return res.status(200).send({ success: true, following: true });
+  } catch (error) {
+    logger.error(`Couldnt execute "checkFollow": ${error.message}`);
+    return res.status(500).send({ error: "Internal server error." });
+  }
+};
+
 const searchProfiles = async (req, res) => {
   try {
     const { searchQuery } = req.params;
@@ -216,4 +245,5 @@ module.exports = {
   unFollowUser,
   searchProfiles,
   getUserById,
+  checkFollow,
 };
