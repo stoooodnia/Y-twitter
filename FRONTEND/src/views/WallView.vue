@@ -3,13 +3,11 @@
       <div class=" text-white mx-auto flex flex-col gap-4 text-xl py-2 border-b border-gray-600 ">
         <form @submit.prevent="submitPost">
             <div class="flex items-start gap-4 px-4 mt-6">
-                <span
-            class="relative flex h-20 w-20 shrink-0 overflow-hidden border border-white rounded-full"
+              <span
+            class="relative flex shrink-0 overflow-hidden rounded-full w-24 h-24 border-2 border-white"
           >
-            <span
-              class="flex h-full w-full items-center justify-center rounded-full bg-muted"
-            >Y</span
-            >
+          <img :src="user.profilePicture" alt="Profile Picture" >
+    
           </span>
                 <textarea
                 v-model="newPostContent"
@@ -46,6 +44,7 @@ import { useAuthStore } from "@/stores/authStore";
     },
     data() {
       return {
+        user: useAuthStore().user,
         newPostContent: "",
         posts: this.fetchPosts(useAuthStore().user.userId),
       };

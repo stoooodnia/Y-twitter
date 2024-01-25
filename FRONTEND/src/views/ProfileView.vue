@@ -14,7 +14,7 @@
       <div class="mt-[-72px]">
         <div class="flex justify-between items-end">
           <span
-            class="relative flex shrink-0 overflow-hidden rounded-full w-24 h-24 border-4 border-white"
+            class="relative flex shrink-0 overflow-hidden rounded-full w-24 h-24 border-2 border-white"
           >
           <img :src="user.profilePicture" alt="Profile Picture" >
     

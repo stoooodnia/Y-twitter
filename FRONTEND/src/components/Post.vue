@@ -4,7 +4,7 @@
       <div class="flex items-start p-4">
         <div class="flex items-start gap-4 text-sm">
           <span
-            class="relative flex shrink-0 overflow-hidden rounded-full w-14 h-14 border-4 border-white"
+            class="relative flex shrink-0 overflow-hidden rounded-full w-14 h-14 border-2 border-white"
           >
           <img :src="user.profilePicture" alt="Profile Picture" >
     
