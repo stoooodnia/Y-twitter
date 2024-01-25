@@ -27,7 +27,7 @@
           </div>
           <div @mouseover="showResults" @mouseleave="hideResults">
             <ul v-show="resultDisplay" v-if="searchResults.length > 0" class="pt-4">
-              <li v-for="profile in searchResults" :key="profile.userId" class="mb-2 pt-0">
+              <li v-for="profile in searchResults" :key="profile.userId" class="mb-2 pt-0 flex items-center justify-between">
                 <Router-link :to="{ name: 'profile', params: { userId: profile.userId } }" class="flex gap-4 items-center bg-black hover:bg-gray-700 rounded-md px-2 py-2">
                   <img
                     :src="profile.profilePicture"
@@ -35,8 +35,8 @@
                     class="w-10 h-10 rounded-full"
                   />
                   <h3 class="text-sm font-bold bg-transparent">{{ profile.username }}</h3>
-                  <FollowButton :profile="profile" class="bg-transparent" />
                 </Router-link>
+                <FollowButton :profile="profile" class="bg-transparent" />
               </li>
             </ul>
 

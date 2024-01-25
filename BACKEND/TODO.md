@@ -6,4 +6,4 @@
 6. Logout button
 7. Users to follow on rightbar
 8. change userId to Handle in meaning that user choose his userId
-   git
+9. Try to change location.reload() in followButton for something more gentle
