@@ -8,13 +8,6 @@ const {
 const { v4: uuidv4 } = require("uuid");
 const MyError = require("../utils/MyError.js");
 
-/**
- * Register a new user in the Neo4j database.
- * @param {Object} userData - User data including username, email, and password.
- * @returns {Object} - The created user.
- * @throws Will throw an error if the user with the provided email or username already exists,
- * or if there is an issue during the registration process.
- */
 async function register(userData) {
   try {
     const checkExistingUserQuery = `
@@ -53,8 +46,10 @@ async function register(userData) {
       email: userData.email,
       password: passwordHash,
       description: "",
-      profilePicture: "",
-      bgPicture: "",
+      profilePicture:
+        "https://twirpz.files.wordpress.com/2015/06/twitter-avi-gender-balanced-figure.png",
+      bgPicture:
+        "https://www.solidbackgrounds.com/images/2560x1440/2560x1440-davys-grey-solid-color-background.jpg",
     };
 
     const result = await executeWriteTransaction(createUserQuery, params);

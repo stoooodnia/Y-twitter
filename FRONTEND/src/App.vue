@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen max-w-screen flex bg-black ">
     <!-- <div class="flex flex-col w-80"></div> -->
-    <NavBarView class="2/5"/>
+    <NavBarView />
     <RouterView />
     <RightBarView/>
   </div>

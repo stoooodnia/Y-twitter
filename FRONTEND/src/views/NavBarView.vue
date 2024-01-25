@@ -1,5 +1,5 @@
 <template>   
-      <div class="flex flex-col w-64 sticky top-0 h-screen">
+      <div class="flex flex-col w-64 sticky top-0 h-max">
         <div class="flex items-center justify-center mt-6 ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -199,26 +199,31 @@
             </svg>
             -
           </RouterLink>
+
+          <LogoutButton class="self-end"/>
         </nav>
       </div>
+      
   </template>
   
   <script>
+import LogoutButton from '@/components/LogoutButton.vue';
 import { useAuthStore } from '@/stores/authStore';
 
   export default {
     data() {
-      return {
-        page: "",
-        userId: useAuthStore().user.userId,
-      }
-    }, 
+        return {
+            page: "",
+            userId: useAuthStore().user.userId ? useAuthStore().user.userId : "1",
+        };
+    },
     watch: {
-      $route() {
-        this.page = this.$route.name;
-      }
-    }
-  }
+        $route() {
+            this.page = this.$route.name;
+        }
+    },
+    components: { LogoutButton }
+}
   
   </script>
   

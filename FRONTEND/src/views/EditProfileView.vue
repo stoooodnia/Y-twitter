@@ -71,7 +71,7 @@
             this.success = 'Changes saved.';
             useAuthStore().setUser(response.data.user);
             setTimeout(() => {
-              this.$router.push({ path: '/profile' });
+              this.$router.push({ name: 'profile', params: { userId: toRaw(useAuthStore().user).userId }});
             }, 1000);
           })
           .catch(() => {

@@ -35,7 +35,7 @@
                     class="w-10 h-10 rounded-full"
                   />
                   <h3 class="text-sm font-bold bg-transparent">{{ profile.username }}</h3>
-                  <FollowButton :profile="profile" />
+                  <FollowButton :profile="profile" class="bg-transparent" />
                 </Router-link>
               </li>
             </ul>

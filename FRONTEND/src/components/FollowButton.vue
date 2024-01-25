@@ -1,6 +1,6 @@
 <template>
   <button
-    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium border text-white border-white bg-transparent hover:bg-white hover:text-gray-900 h-9 rounded-md px-3"
+    class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium border text-white border-white  hover:bg-white hover:text-gray-900 h-9 rounded-md px-3"
     @click="follow(user.userId)"
     v-if="!user.followed"
     >
