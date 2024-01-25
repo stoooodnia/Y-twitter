@@ -17,10 +17,7 @@
             class="relative flex shrink-0 overflow-hidden rounded-full w-24 h-24 border-4 border-white"
           >
           <img :src="user.profilePicture" alt="Profile Picture" >
-            <!-- <span
-              class="flex h-full w-full items-center justify-center rounded-full bg-muted"
-              >Y</span
-            > -->
+    
           </span>
           <a v-if="myProfile"
             class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 text-white border-white relative z-20 dark:bg-gray-700 dark:hover:bg-gray-600"

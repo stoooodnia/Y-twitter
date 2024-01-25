@@ -4,12 +4,10 @@
       <div class="flex items-start p-4">
         <div class="flex items-start gap-4 text-sm">
           <span
-            class="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full"
+            class="relative flex shrink-0 overflow-hidden rounded-full w-14 h-14 border-4 border-white"
           >
-            <span
-              class="flex h-full w-full items-center justify-center rounded-full bg-muted"
-            >Y</span
-            >
+          <img :src="user.profilePicture" alt="Profile Picture" >
+    
           </span>
           <div class="grid gap-1">
             <div class="font-semibold">{{ post.authorName }}</div>
@@ -106,10 +104,16 @@ export default {
   },
   data() {
     return {
+      user: {},
       showReplies: false,
       newReply: '',
       replies: [],
     };
+  },
+  mounted() {
+    this.user = dataService.getUserById(this.post.authorId).then((res) => {
+      this.user = res.data.user;
+    });
   },
   methods: {
     toggleReplies() {
@@ -125,8 +129,10 @@ export default {
 
       dataService.addReply(data).then(() => {
         this.newReply = '';
+        this.fetchReplies();
       });
-      this.fetchReplies();
+
+      
     },
     fetchReplies() {
       dataService.fetchReplies(this.post.postId).then((res) => {
