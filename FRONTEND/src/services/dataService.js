@@ -16,9 +16,6 @@ export default {
     return apiClient.get(`/posts/user/${userId}`);
   },
   searchProfiles(searchQuery) {
-    if (searchQuery === "") {
-      return apiClient.get(`/user/search-any`);
-    }
     return apiClient.get(`/user/search/${searchQuery}`);
   },
   follow(data) {

@@ -71,6 +71,10 @@
     },
     methods: {
         searchProfiles() {
+            if (this.searchQuery === "") {
+                this.searchResults = [];
+                return;
+            }
             dataService.searchProfiles(this.searchQuery)
                 .then((response) => {
                 this.searchResults = response.data.profiles.filter((profile) => {

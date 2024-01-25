@@ -38,7 +38,6 @@ export default {
             followed: false,
             hover: false,
         } 
-        console.log(this.user);
     },
     methods: {
         follow(followingId) {
@@ -47,7 +46,6 @@ export default {
                 followerId,
                 followingId,
             }
-            console.log(data);
             dataService.follow(data).then(() => {
                 this.user.followed = true;
             })

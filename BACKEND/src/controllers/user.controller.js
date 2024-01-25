@@ -54,6 +54,7 @@ const followUser = async (req, res) => {
     const { followerId, followingId } = req.body;
 
     if (followerId === followingId) {
+      logger.error("You cant follow yourself");
       return res.status(400).send({ error: "You cant follow yourself." });
     }
 
@@ -77,6 +78,7 @@ const followUser = async (req, res) => {
     );
 
     if (relationshipExistsResult.records[0]) {
+      logger.error("Relationship already exists");
       return res.status(400).send({ error: "Relationship already exists." });
     }
 
@@ -105,6 +107,7 @@ const unFollowUser = async (req, res) => {
     const { followerId, followingId } = req.body;
 
     if (followerId === followingId) {
+      logger.error("You cant unfollow yourself");
       return res.status(400).send({ error: "You cant unfollow yourself." });
     }
 
@@ -116,6 +119,7 @@ const unFollowUser = async (req, res) => {
     );
 
     if (!relationshipExistsResult.records[0]) {
+      logger.error("Relationship doesnt exist");
       return res.status(400).send({ error: "Relationship doesnt exist." });
     }
 
