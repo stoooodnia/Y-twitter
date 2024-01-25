@@ -118,7 +118,7 @@ export default {
       if (this.currentView === 'POSTS') {
         return this.posts.filter(post => !post.isReply);
       } else if (this.currentView === 'REPLIES') {
-        return this.posts.filter(post => post.isReplay);
+        return this.posts.filter(post => post.isReply);
       }
       return this.posts;
     }

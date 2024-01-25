@@ -69,7 +69,7 @@ export default {
             }
             dataService.follow(data).then(() => {
                 this.user.followed = true;
-                location.reload();
+                // location.reload();
             })
         },
         unfollow(followingId) {
@@ -81,7 +81,7 @@ export default {
             
             dataService.unfollow(data).then(() => {
                 this.user.followed = false;
-                location.reload();
+                // location.reload();
             })
         }
     }
