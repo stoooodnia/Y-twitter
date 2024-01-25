@@ -33,7 +33,6 @@ export default {
         }
     },
     watch: {
-        
         profile: {
             handler: "updateUser",
             immediate: true,
@@ -70,6 +69,7 @@ export default {
             }
             dataService.follow(data).then(() => {
                 this.user.followed = true;
+                location.reload();
             })
         },
         unfollow(followingId) {
@@ -81,6 +81,7 @@ export default {
             
             dataService.unfollow(data).then(() => {
                 this.user.followed = false;
+                location.reload();
             })
         }
     }
