@@ -1,7 +1,7 @@
 <template>
       <main class="max-w-2xl px-4  text-white">
         <div class="mt-4">
-          <div class="flex items-center mb-4" @mouseover="showResults">
+          <div class="flex items-center" @mouseover="showResults">
             <!-- Pole wprowadzania tekstu -->
             <input
             @input="showResults"
@@ -26,9 +26,9 @@
               </svg>
           </div>
           <div @mouseover="showResults" @mouseleave="hideResults">
-            <ul v-show="resultDisplay" v-if="searchResults.length > 0" class="mt-8 ">
-              <li v-for="profile in searchResults" :key="profile.userId" class="mb-4">
-                <router-link :to="{ name: 'profile', params: { userId: profile.userId } }" class="ml-4 flex gap-4 items-center bg-black hover:bg-gray-700">
+            <ul v-show="resultDisplay" v-if="searchResults.length > 0" class="pt-4">
+              <li v-for="profile in searchResults" :key="profile.userId" class="mb-2 pt-0">
+                <router-link :to="{ name: 'profile', params: { userId: profile.userId } }" class="flex gap-4 items-center bg-black hover:bg-gray-700 rounded-md px-2 py-2">
                   <img
                     :src="profile.profilePicture"
                     :alt="profile.username"
