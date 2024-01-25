@@ -28,8 +28,14 @@
           <div @mouseover="showResults" @mouseleave="hideResults">
             <ul v-show="resultDisplay" v-if="searchResults.length > 0" class="mt-8 ">
               <li v-for="profile in searchResults" :key="profile.userId" class="mb-4">
-                <h3 class="text-sm font-bold">{{ profile.username }}</h3>
-                <p class="text-gray-400">{{ profile.description }}</p>
+                <router-link :to="{ name: 'profile', params: { userId: profile.userId } }" class="ml-4 flex gap-4 items-center bg-black hover:bg-gray-700">
+                  <img
+                    :src="profile.profilePicture"
+                    :alt="profile.username"
+                    class="w-10 h-10 rounded-full"
+                  />
+                  <h3 class="text-sm font-bold bg-transparent">{{ profile.username }}</h3>
+                </router-link>
               </li>
             </ul>
 
