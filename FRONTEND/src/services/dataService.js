@@ -30,4 +30,7 @@ export default {
   getUserById(userId) {
     return apiClient.get(`/user/${userId}`);
   },
+  addPost(data) {
+    return apiClient.post(`/posts/add`, data);
+  },
 };

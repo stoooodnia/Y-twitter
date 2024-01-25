@@ -40,6 +40,8 @@
   
   <script>
   import Post from "@/components/Post.vue";
+import dataService from "@/services/dataService";
+import { useAuthStore } from "@/stores/authStore";
   
   export default {
     components: {
@@ -48,24 +50,19 @@
     data() {
       return {
         newPostContent: "",
-        posts: [] // Tutaj trzymamy listę tweetów
+        posts: [] 
       };
     },
     methods: {
       submitPost() {
-        // Tutaj możesz dodać logikę wysyłania nowego tweeta do serwera
-        // Na potrzeby przykładu, dodajemy nowy wpis na górze listy
         const newPost = {
-          id: Math.random().toString(36).substr(2, 9),
-          authorName: "John Doe",
-          authorId: "johndoe123",
-          createdAt: new Date().toLocaleString(),
-          content: this.newPostContent
+            userId: useAuthStore().user.userId,
+            content: this.newPostContent,
         };
-        this.posts.unshift(newPost);
-  
-        // Wyczyść pole tekstowe po dodaniu nowego wpisu
-        this.newPostContent = "";
+        dataService.addPost(newPost).then(() => {
+            this.posts.unshift(newPost);
+            this.newPostContent = "";
+        });
       }
     }
   };
