@@ -27,11 +27,8 @@
             Post
           </button>
         </div>
-          
         </form>
       </div>
-  
-      <!-- Lista tweetów -->
       <div class="w-full mt-4 text-white">
         <Post v-for="post in posts" :key="post.id" :post="post" class="px-4 border-b border-gray-600" />
       </div>

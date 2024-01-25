@@ -1,4 +1,5 @@
 const logger = require("../config/logger.config.js");
+const { v4: uuidv4 } = require("uuid");
 const {
   executeWriteTransaction,
   executeReadTransaction,
@@ -17,11 +18,13 @@ const addPost = async (req, res) => {
       return res.send({ error: "User does not exist." });
     }
 
+    const postId = uuidv4();
     const createPostQuery =
-      "MATCH (user:User {userId: $userId}) CREATE (user)-[:POSTED]->(post:Post {content: $content, createdAt: toString(datetime()), authorName: user.username, authorId: $userId, isReply: false}) RETURN post";
+      "MATCH (user:User {userId: $userId}) CREATE (user)-[:POSTED]->(post:Post {content: $content, createdAt: toString(datetime()), authorName: user.username, authorId: $userId, isReply: false, postId: $postId}) RETURN post";
     const createPostResult = await executeWriteTransaction(createPostQuery, {
       userId,
       content,
+      postId,
     });
 
     const createdPost = createPostResult.records[0].get("post").properties;
@@ -101,4 +104,49 @@ const fetchPosts = async (req, res) => {
   }
 };
 
-module.exports = { addPost, getPostsByUserId, fetchPosts };
+const addReply = async (req, res) => {
+  try {
+    const { userId, content, postId } = req.body;
+
+    // Sprawdź, czy użytkownik istnieje
+    const userExistsQuery = "MATCH (user:User {userId: $userId}) RETURN user";
+    const userExistsResult = await executeReadTransaction(userExistsQuery, {
+      userId,
+    });
+
+    if (!userExistsResult.records[0]) {
+      return res.send({ error: "User does not exist." });
+    }
+
+    // Sprawdź, czy post istnieje
+    const postExistsQuery = "MATCH (post:Post {postId: $postId}) RETURN post";
+    const postExistsResult = await executeReadTransaction(postExistsQuery, {
+      postId,
+    });
+
+    if (!postExistsResult.records[0]) {
+      return res.send({ error: "Post does not exist." });
+    }
+
+    // Dodaj odpowiedź
+    const addReplyQuery = `
+      MATCH (user:User {userId: $userId}), (post:Post {postId: $postId})
+      CREATE (user)-[:POSTED]->(reply:Post {content: $content, createdAt: toString(datetime()), authorName: user.username, authorId: $userId, isReply: true})-[:REPLY_TO]->(post)
+      RETURN reply
+    `;
+    const addReplyResult = await executeWriteTransaction(addReplyQuery, {
+      userId,
+      content,
+      postId,
+    });
+
+    const reply = addReplyResult.records[0].get("reply").properties;
+
+    return res.status(201).send({ success: true, reply });
+  } catch (error) {
+    console.error(`Error adding reply: ${error.message}`);
+    return res.status(500).send({ error: "Internal Server Error" });
+  }
+};
+
+module.exports = { addPost, getPostsByUserId, fetchPosts, addReply };
