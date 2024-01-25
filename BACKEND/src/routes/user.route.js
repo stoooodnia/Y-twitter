@@ -4,6 +4,7 @@ const {
   changeProfile,
   followUser,
   searchProfiles,
+  unFollowUser,
 } = require("../controllers/user.controller.js");
 
 // change description
@@ -11,7 +12,10 @@ const {
 router.put("/update-profile", changeProfile);
 
 // create follow relationship
-router.post("/follow-user", followUser);
+router.post("/follow", followUser);
+
+// delete follow relationship
+router.post("/unfollow", unFollowUser);
 
 // search for profiles
 router.get("/search/:searchQuery", searchProfiles);

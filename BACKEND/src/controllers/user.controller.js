@@ -53,7 +53,6 @@ const followUser = async (req, res) => {
   try {
     const { followerId, followingId } = req.body;
 
-    // Sprawdź, czy oba użytkownicy istnieją w ramach transakcji do odczytu
     const usersExistQuery =
       "MATCH (follower:User {userId: $followerId}), (following:User {userId: $followingId}) RETURN follower, following";
     const usersExistResult = await executeReadTransaction(usersExistQuery, {
@@ -97,6 +96,36 @@ const followUser = async (req, res) => {
   }
 };
 
+const unFollowUser = async (req, res) => {
+  try {
+    const { followerId, followingId } = req.body;
+
+    const relationshipExistsQuery =
+      "MATCH (follower:User {userId: $followerId})-[r:IS_FOLLOWING]->(following:User {userId: $followingId}) RETURN r";
+    const relationshipExistsResult = await executeReadTransaction(
+      relationshipExistsQuery,
+      { followerId, followingId }
+    );
+
+    if (!relationshipExistsResult.records[0]) {
+      return res.status(400).send({ error: "Relationship doesnt exist." });
+    }
+
+    const deleteRelationshipQuery =
+      "MATCH (follower:User {userId: $followerId})-[r:IS_FOLLOWING]->(following:User {userId: $followingId}) DELETE r";
+    await executeWriteTransaction(deleteRelationshipQuery, {
+      followerId,
+      followingId,
+    });
+
+    logger.info("Deleted relationship IS_FOLLOWING.");
+    return res.status(200).send({ success: true });
+  } catch (error) {
+    logger.error(`Couldnt execute "unFollowUser": ${error.message}`);
+    return res.status(500).send({ error: "Internal server error." });
+  }
+};
+
 const searchProfiles = async (req, res) => {
   try {
     const { searchQuery } = req.params;
@@ -125,7 +154,17 @@ const searchProfiles = async (req, res) => {
     );
 
     const profiles = searchProfilesResult.records.map(
-      (record) => record.get("user").properties
+      // map to properties without password
+      (record) => {
+        const props = record.get("user").properties;
+        return {
+          userId: props.userId,
+          username: props.username,
+          description: props.description,
+          profilePicture: props.profilePicture,
+          bgPicture: props.bgPicture,
+        };
+      }
     );
 
     logger.info("Found profiles.");
@@ -139,5 +178,6 @@ const searchProfiles = async (req, res) => {
 module.exports = {
   changeProfile,
   followUser,
+  unFollowUser,
   searchProfiles,
 };

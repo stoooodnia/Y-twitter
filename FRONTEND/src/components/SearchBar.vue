@@ -35,6 +35,7 @@
                     class="w-10 h-10 rounded-full"
                   />
                   <h3 class="text-sm font-bold bg-transparent">{{ profile.username }}</h3>
+                  <FollowButton :profile="profile" />
                 </router-link>
               </li>
             </ul>
@@ -47,14 +48,14 @@
   
   <script>
   import dataService from "@/services/dataService.js";
+import FollowButton from "./FollowButton.vue";
   export default {
     data() {
-      return {
-        resultDisplay: false,
-        searchQuery: "",
-        searchResults: [],
-        // searchResults: [{ userId: 1, username: "Test", description: "Test" }, { userId: 2, username: "Test2", description: "Test2" }],
-      };
+        return {
+            resultDisplay: false,
+            searchQuery: "",
+            searchResults: [],
+        };
     },
     watch: {
         searchQuery: {
@@ -63,19 +64,20 @@
         }
     },
     methods: {
-      searchProfiles() {
-        dataService.searchProfiles(this.searchQuery)
-        .then((response) => {
-          this.searchResults = response.data.profiles;
-        });
-      },
-      showResults() {
-      this.resultDisplay = true;
+        searchProfiles() {
+            dataService.searchProfiles(this.searchQuery)
+                .then((response) => {
+                this.searchResults = response.data.profiles;
+            });
         },
-      hideResults() {
-       this.resultDisplay = false;
-      },
+        showResults() {
+            this.resultDisplay = true;
+        },
+        hideResults() {
+            this.resultDisplay = false;
+        },
     },
-  };
+    components: { FollowButton }
+};
   </script>
   

@@ -19,4 +19,10 @@ export default {
     console.log(searchQuery);
     return apiClient.get(`/user/search/${searchQuery}`);
   },
+  follow(data) {
+    return apiClient.post(`/user/follow/`, data);
+  },
+  unfollow(data) {
+    return apiClient.post(`/user/unfollow/`, data);
+  },
 };
