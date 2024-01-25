@@ -2,7 +2,8 @@
 
 W oparciu o (i z wykorzystaniem) `Node.js` i biblioteki `Socket.io` oraz `Vue.js` stwórz serwis społecznościowy pozwalający na następujące operacje:
 
-- Wersja na ocenę __<= 3.5__
+- Wersja na ocenę **<= 3.5**
+
   - rejestracja w serwisie i logowanie do serwera (minimum to wykorzystanie `passport-local`)
   - tworzenie/definiowanie wizytówki użytkownika konta zawierającej, między innymi, „awatar” (wizytówka określa co inni użytkownicy widzą na nasz temat)
   - obserwowanie innych użytkowników
@@ -11,7 +12,7 @@ W oparciu o (i z wykorzystaniem) `Node.js` i biblioteki `Socket.io` oraz `Vue.js
   - podgląd wpisów danego użytkownika (w ramach interfejsu konta)
   - cytowanie wpisów
 
-- Wersja na ocenę __>= 4.0__
+- Wersja na ocenę **>= 4.0**
   - wszystko to co powyżej
   - responsywność interfejsu
   - podczas przeglądania wątku jesteśmy (dyskretnie) informowani o fakcie pojawienia się w nim nowych wpisów
@@ -27,6 +28,6 @@ W oparciu o (i z wykorzystaniem) `Node.js` i biblioteki `Socket.io` oraz `Vue.js
 
 ## Uwagi techniczne
 
-- Interfejs użytkownika budujemy za pomocą `Vue.js` (w wersji 3.*) z wykorzystaniem języka `JavaScript` i dowolnie wybranego środowiska – opartego na`Vue CLI` lub `vite`.
+- Interfejs użytkownika budujemy za pomocą `Vue.js` (w wersji 3.\*) z wykorzystaniem języka `JavaScript` i dowolnie wybranego środowiska – opartego na`Vue CLI` lub `vite`.
 - Do połączeń z serwerem wykorzystujemy szyfrowanie (zarówno w części `HTTP` jak i `Websockets`)
 - _Serwis-Y_ powinien przechowywać wpisy użytkowników oraz ich metadane w wybranej przez autora bazie danych.

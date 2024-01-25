@@ -66,4 +66,39 @@ const getPostsByUserId = async (req, res) => {
   }
 };
 
-module.exports = { addPost, getPostsByUserId };
+const fetchPosts = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    // Sprawdź, czy użytkownik istnieje
+    const userExistsQuery = "MATCH (user:User {userId: $userId}) RETURN user";
+    const userExistsResult = await executeReadTransaction(userExistsQuery, {
+      userId,
+    });
+
+    if (!userExistsResult.records[0]) {
+      return res.status(400).send({ error: "User does not exist." });
+    }
+
+    // Pobierz posty użytkowników, których obserwuje dany użytkownik
+    const fetchPostsQuery = `
+      MATCH (user:User {userId: $userId})-[:IS_FOLLOWING]->(following:User)-[:POSTED]->(post:Post)
+      RETURN post
+      ORDER BY post.createdAt DESC
+    `;
+    const fetchPostsResult = await executeReadTransaction(fetchPostsQuery, {
+      userId,
+    });
+
+    const posts = fetchPostsResult.records.map(
+      (record) => record.get("post").properties
+    );
+
+    return res.status(200).send({ success: true, posts });
+  } catch (error) {
+    console.error(`Error fetching posts by user ID: ${error.message}`);
+    return res.status(500).send({ error: "Internal Server Error" });
+  }
+};
+
+module.exports = { addPost, getPostsByUserId, fetchPosts };

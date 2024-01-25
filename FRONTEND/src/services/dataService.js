@@ -33,4 +33,7 @@ export default {
   addPost(data) {
     return apiClient.post(`/posts/add`, data);
   },
+  fetchPosts(userId) {
+    return apiClient.get(`/posts/fetch/${userId}`);
+  },
 };

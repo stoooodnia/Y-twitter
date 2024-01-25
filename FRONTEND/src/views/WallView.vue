@@ -1,6 +1,6 @@
 <template>
     <div class="w-full min-h-screen flex-col items-center border-x border-gray-600  ">
-      <div class=" text-white mx-auto flex flex-col gap-4 text-xl py-2 border border-gray-600 ">
+      <div class=" text-white mx-auto flex flex-col gap-4 text-xl py-2 border-b border-gray-600 ">
         <form @submit.prevent="submitPost">
             <div class="flex items-start gap-4 px-4 mt-6">
                 <span
@@ -22,7 +22,7 @@
         <div class="flex justify-end px-4 mt-2">
             <button
             type="submit"
-            class="w-24 mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+            class="w-24 my-2 px-4 py-2  bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
           >
             Post
           </button>
@@ -32,8 +32,8 @@
       </div>
   
       <!-- Lista tweetów -->
-      <div class="w-full mt-4">
-        <Post v-for="post in posts" :key="post.id" :post="post" />
+      <div class="w-full mt-4 text-white">
+        <Post v-for="post in posts" :key="post.id" :post="post" class="px-4 border-b border-gray-600" />
       </div>
     </div>
   </template>
@@ -50,9 +50,9 @@ import { useAuthStore } from "@/stores/authStore";
     data() {
       return {
         newPostContent: "",
-        posts: [] 
+        posts: this.fetchPosts(useAuthStore().user.userId),
       };
-    },
+    },  
     methods: {
       submitPost() {
         const newPost = {
@@ -60,8 +60,14 @@ import { useAuthStore } from "@/stores/authStore";
             content: this.newPostContent,
         };
         dataService.addPost(newPost).then(() => {
-            this.posts.unshift(newPost);
+            this.fetchPosts(useAuthStore().user.userId);
             this.newPostContent = "";
+        });
+      },
+      fetchPosts(userId) {
+        dataService.fetchPosts(userId).then((res) => {
+            console.log(res.data.posts);
+            this.posts = res.data.posts;
         });
       }
     }

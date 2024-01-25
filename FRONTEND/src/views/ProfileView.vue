@@ -77,6 +77,7 @@
             v-for="post in filteredPosts"
             :key="post.createdAt"
             :post="post"
+            class="border border-gray-800 rounded-lg"
           />
       </div>
     </main>
