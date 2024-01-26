@@ -79,7 +79,7 @@
     </div>
 <!--  -->
     <div v-show="showShare" @mouseleave="toggleShare" class="pl-12">
-      <button class="p-1 text-white ml-2 mb-2 hover:text-green-500 transition-colors flex gap-2 items-center">
+      <button @click="share" class="p-1 text-white ml-2 mb-2 hover:text-green-500 transition-colors flex gap-2 items-center">
         <svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"
@@ -190,15 +190,31 @@ export default {
       dataService.addReply(data).then(() => {
         this.newReply = '';
         this.fetchReplies();
-      });
-
-      
+      });  
     },
     fetchReplies() {
       dataService.fetchReplies(this.post.postId).then((res) => {
         this.replies = res.data.replies;
       });
     },
+    share() {
+      const data = {
+        userId: useAuthStore().user.userId,
+        postId: this.post.postId,
+      }
+      dataService.share(data).then((res) => {
+        console.log(res);
+      })
+    },
+    quote() {
+      const data = {
+        userId: useAuthStore().user.userId,
+        postId: this.post.postId,
+      }
+      dataService.quote(data).then((res) => {
+        console.log(res);
+      })
+    }
   },
 };
 </script>

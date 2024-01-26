@@ -6,6 +6,8 @@ const {
   fetchPosts,
   addReply,
   fetchReplies,
+  quote,
+  share,
 } = require("../controllers/post.controller.js");
 
 // router "/post"
@@ -24,5 +26,11 @@ router.post("/add-reply", addReply);
 
 // get replies to a post
 router.get("/fetch-replies/:postId", fetchReplies);
+
+// quote
+router.post("/quote", quote);
+
+// share
+router.post("/share", share);
 
 module.exports = router;

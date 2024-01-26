@@ -42,4 +42,10 @@ export default {
   fetchReplies(postId) {
     return apiClient.get(`/posts/fetch-replies/${postId}`);
   },
+  share(data) {
+    return apiClient.post(`/posts/share`, data);
+  },
+  quote(data) {
+    return apiClient.post(`/posts/quote`, data);
+  },
 };
