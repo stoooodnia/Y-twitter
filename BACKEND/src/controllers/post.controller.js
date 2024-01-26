@@ -206,7 +206,7 @@ const quote = async (req, res) => {
     const quoteId = uuidv4();
     const quoteQuery = `
       MATCH (user:User {userId: $userId}), (post:Post {postId: $postId})
-      CREATE (user)-[:POSTED]->(quote:Post {content: $content, createdAt: toString(datetime()), authorName: user.username, authorId: $userId, isReply: true, postId: $quoteId})-[:QUOTE]->(post)
+      CREATE (user)-[:POSTED]->(quote:Post {content: $content, createdAt: toString(datetime()), authorName: user.username, authorId: $userId, isReply: false, isQuote: true, quotedPostId: $postId, postId: $quoteId})-[:QUOTE]->(post)
       RETURN quote
     `;
     const quoteResult = await executeWriteTransaction(quoteQuery, {

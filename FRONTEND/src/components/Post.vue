@@ -20,7 +20,7 @@
         class="flex-1 whitespace-pre-wrap px-4 pt-4 text-sm"
       >
         <p v-if="!post.isQuote">{{ post.content }}</p>
-        <p v-else-if="post.content && post.isQuote">"{{ post.content }}"</p>
+        <p v-else-if="post.content && post.isQuote">{{ post.content }}</p>
         <div v-else class="flex text-gray-400">         
         <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -42,18 +42,19 @@
         {{ post.authorName }} shared:</div>
       </div >
       <!-- isQuote -->
-      <div v-show="post.isQuote">
-        <div class="flex items-start p-4 border rounded-lg m-4">
+      <div v-show="post.isQuote" class="border p-1 rounded-lg m-4"> 
+        <div class="flex items-start p-4">
+
           <div class="flex items-start gap-4 text-sm">
             <span
               class="relative flex shrink-0 overflow-hidden rounded-full w-14 h-14 border-2 border-white"
             >
-            <img :src="user.profilePicture" alt="Profile Picture" >
+            <img :src="quoteUser.profilePicture" alt="Profile Picture" >
       
             </span>
             <div class="grid gap-1">
               <div class="font-semibold">{{ quotedPost.authorName }}</div>
-              <a :href="`/profile/${quotedPost.authorId}`" class="line-clamp-1 text-xs text-gray-500 hover:underline">@{{ post.authorId }}</a>
+              <a :href="`/profile/${quotedPost.authorId}`" class="line-clamp-1 text-xs text-gray-500 hover:underline">@{{ quotedPost.authorId }}</a>
             </div>
           </div>
           <div class="ml-auto text-xs text-gray-500">{{ quotedPost.createdAt }}</div>
@@ -63,6 +64,7 @@
         >
           <p>{{ quotedPost.content }}</p>
         </div>
+
       </div>
     </div>
     <!-- buttons -->
@@ -143,7 +145,7 @@
         </svg>
         Share content
       </button>
-      <button class=" p-1 text-white ml-2 mb-2 hover:text-green-500 transition-colors flex gap-2 items-center">
+      <button @click="toggleQuote" class=" p-1 text-white ml-2 mb-2 hover:text-green-500 transition-colors flex gap-2 items-center">
         <svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"
@@ -164,15 +166,15 @@
         Quote
       </button>
     </div>
-    <!-- <div v-if="showReplies" class="px-4 py-2 border border-gray-300 rounded-md">
-          <button @click="toggleReplies" class="text-gray-500 hover:text-gray-700 ml-2 mb-2">
+    <div v-show="showQuote" class="px-4 py-2 border border-gray-300 rounded-md">
+          <button @click="toggleQuote" class="text-gray-500 hover:text-gray-700 ml-2 mb-2">
             <svg class="w-8 h-8 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6m0 12L6 6"/>
             </svg>
           </button>
-          <textarea v-model="newReply" rows="3" class="w-full border border-gray-300 rounded-md mb-2 p-2" placeholder="Add reply..."></textarea>
-          <button @click="addReply" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">Add reply</button>
-        </div> -->
+          <textarea v-model="newQuote" rows="3" class="w-full border border-gray-300 rounded-md mb-2 p-2" placeholder="Add reply..."></textarea>
+          <button @click="quote" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">Quote</button>
+        </div>
 <!--  -->
     <div v-if="showReplies" class="px-4 py-2 border border-gray-300 rounded-md">
       <button @click="toggleReplies" class="text-gray-500 hover:text-gray-700 ml-2 mb-2">
@@ -204,20 +206,27 @@ export default {
       user: {},
       showReplies: false,
       showShare: false,
+      showQuote: false,
       newReply: '',
       replies: [],
       quotedPost: {},
+      newQuote: '',
+      quoteUser: {},
     };
   },
   mounted() {
     this.user = dataService.getUserById(this.post.authorId).then((res) => {
       this.user = res.data.user;
     });
-    console.log(this.post.isQuote);
     if(this.post.isQuote) {
       dataService.getPostById(this.post.quotedPostId).then((res) => {
         this.quotedPost = res.data.post;
-        console.log(this.quotedPost);
+        
+      }).then(() => {
+        dataService.getUserById(this.quotedPost.authorId).then((res) => {
+          this.quoteUser = res.data.user;
+          console.log(this.quoteUser)
+        })
       })
     }
   },
@@ -254,18 +263,26 @@ export default {
         userId: useAuthStore().user.userId,
         postId: this.post.postId,
       }
-      dataService.share(data).then((res) => {
-        console.log(res);
+      dataService.share(data).then(() => {
+        location.reload();
       })
     },
     quote() {
       const data = {
         userId: useAuthStore().user.userId,
+        content: this.newQuote,
         postId: this.post.postId,
       }
-      dataService.quote(data).then((res) => {
-        console.log(res);
+      dataService.quote(data).then(() => {
+        this.newQuote = '';
+        this.toggleQuote();
+        location.reload();
       })
+    }, 
+    toggleQuote() {
+      this.showReplies = false;
+      this.showShare = false;
+      this.showQuote = !this.showQuote;
     }
   },
 };
