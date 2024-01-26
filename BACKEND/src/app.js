@@ -12,7 +12,11 @@ app.use(pinoHttp({ logger, prettyPrint: true })); // log all requests
 
 // cors
 const cors = require("cors");
-app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
+app.use(cors({ credentials: true, origin: "https://localhost:5173" }));
+
+// security headers
+const helmet = require("helmet");
+app.use(helmet());
 
 // req, res parsing
 app.use(express.urlencoded({ extended: false }));

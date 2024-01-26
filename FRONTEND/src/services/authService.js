@@ -1,9 +1,10 @@
 import axios from "axios";
 
 const authClient = axios.create({
-  baseURL: `http://localhost:3000/auth`,
+  baseURL: `https://localhost:3000/auth`,
   withCredentials: true,
   headers: {
+    origin: "https://localhost:3000",
     "Content-Type": "application/json",
   },
 });
