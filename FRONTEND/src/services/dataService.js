@@ -48,4 +48,7 @@ export default {
   quote(data) {
     return apiClient.post(`/posts/quote`, data);
   },
+  getPostById(postId) {
+    return apiClient.get(`/posts/${postId}`);
+  },
 };

@@ -250,7 +250,7 @@ const share = async (req, res) => {
     const shareId = uuidv4();
     const shareQuery = `
       MATCH (user:User {userId: $userId}), (post:Post {postId: $postId})
-      CREATE (user)-[:POSTED]->(share:Post {content: null, createdAt: toString(datetime()), authorName: user.username, authorId: $userId, isReply: false, isShare: true, isQuote: false, quotedPostId: $postId, postId: $shareId})-[:SHARE]->(post)
+      CREATE (user)-[:POSTED]->(share:Post {content: null, createdAt: toString(datetime()), authorName: user.username, authorId: $userId, isReply: false, isQuote: true, quotedPostId: $postId, postId: $shareId})-[:SHARE]->(post)
       RETURN share
     `;
     const shareResult = await executeWriteTransaction(shareQuery, {
@@ -268,6 +268,28 @@ const share = async (req, res) => {
   }
 };
 
+const getPostById = async (req, res) => {
+  try {
+    const { postId } = req.params;
+
+    const postExistsQuery = "MATCH (post:Post {postId: $postId}) RETURN post";
+    const postExistsResult = await executeReadTransaction(postExistsQuery, {
+      postId,
+    });
+
+    if (!postExistsResult.records[0]) {
+      return res.send({ error: "Post does not exist." });
+    }
+
+    const post = postExistsResult.records[0].get("post").properties;
+
+    return res.status(200).send({ success: true, post });
+  } catch (error) {
+    console.error(`Error fetching post by ID: ${error.message}`);
+    return res.status(500).send({ error: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   addPost,
   getPostsByUserId,
@@ -276,4 +298,5 @@ module.exports = {
   fetchReplies,
   quote,
   share,
+  getPostById,
 };

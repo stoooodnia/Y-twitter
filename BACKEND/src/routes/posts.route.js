@@ -8,6 +8,7 @@ const {
   fetchReplies,
   quote,
   share,
+  getPostById,
 } = require("../controllers/post.controller.js");
 
 // router "/post"
@@ -32,5 +33,8 @@ router.post("/quote", quote);
 
 // share
 router.post("/share", share);
+
+// get post by postId
+router.get("/:postId", getPostById);
 
 module.exports = router;
