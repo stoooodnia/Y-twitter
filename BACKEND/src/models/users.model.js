@@ -1,5 +1,4 @@
 "use strict";
-
 const bcrypt = require("bcrypt");
 const {
   executeReadTransaction,
@@ -7,6 +6,34 @@ const {
 } = require("../config/db.config");
 const { v4: uuidv4 } = require("uuid");
 const MyError = require("../utils/MyError.js");
+
+async function getUserById(userId) {
+  try {
+    const query = `
+        MATCH (user:User)
+        WHERE user.userId = $userId
+        RETURN user
+      `;
+
+    const params = {
+      userId: userId,
+    };
+
+    const result = await executeReadTransaction(query, params);
+
+    if (result.records.length > 0) {
+      const user = result.records[0].get("user").properties;
+      return user;
+    } else {
+      throw new MyError("User not found", 404);
+    }
+  } catch (error) {
+    throw new MyError(
+      `Error during getting user by id: ${error.message}`,
+      error.status
+    );
+  }
+}
 
 async function register(userData) {
   try {
@@ -71,4 +98,5 @@ async function register(userData) {
 
 module.exports = {
   register,
+  getUserById,
 };

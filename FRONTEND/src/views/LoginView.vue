@@ -55,6 +55,7 @@
   
   <script>
     import authClient from "@/services/authService.js";
+    import { socket } from "@/socket/socket.js";
     import { useAuthStore } from "@/stores/authStore.js";
     export default {
       data() {
@@ -76,6 +77,7 @@
             const user = response.data
             const store = useAuthStore();
             store.setUser(user);
+            socket.connect();
             this.$router.push({ name: "profile", params: { userId: user.userId }});
           }).catch(() => {
             this.error = "Invalid username or password";

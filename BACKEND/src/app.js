@@ -12,18 +12,18 @@ app.use(pinoHttp({ logger, prettyPrint: true })); // log all requests
 
 // cors
 const cors = require("cors");
-app.use(cors({ credentials: true, origin: "https://localhost:5173" }));
+app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 
 // security headers
-const helmet = require("helmet");
-app.use(helmet());
+// const helmet = require("helmet");
+// app.use(helmet());
 
 // req, res parsing
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // cookie parser
-app.use(require("cookie-parser")());
+// app.use(require("cookie-parser")());
 
 // express flash
 app.use(require("express-flash")());
@@ -39,17 +39,16 @@ const memoryStore = new MemoryStore({ checkPeriod: 60 * 1000 }); // 1 minute
 
 const secret = process.env.SECRET_KEY || "super secret key";
 
-app.use(
-  expressSession({
-    secret: secret,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 1000 * 60 * 10,
-    },
-    store: memoryStore,
-  })
-);
+const session = expressSession({
+  secret: secret,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 1000 * 60 * 10,
+  },
+  store: memoryStore,
+});
+app.use(session);
 
 // passport authentication
 const passport = require("passport");
@@ -67,4 +66,4 @@ app.use("/user", isAuthenticated, require("./routes/user.route.js"));
 app.use("/posts", isAuthenticated, require("./routes/posts.route.js"));
 
 // app exports
-module.exports = app;
+module.exports = { app, session };

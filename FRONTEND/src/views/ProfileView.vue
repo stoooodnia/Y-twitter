@@ -87,6 +87,7 @@ import Post from "@/components/Post.vue";
 import dataService from "@/services/dataService.js";
 import { useAuthStore } from "@/stores/authStore.js";
 import { toRaw } from "vue";
+import { socket } from "@/socket/socket.js";
 
 export default {
   components: {
@@ -111,6 +112,7 @@ export default {
   },
   created() {
     this.loadUserData(this.$route.params.userId);
+    socket.connect();
   },
   computed: {
     filteredPosts() {

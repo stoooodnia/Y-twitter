@@ -27,6 +27,7 @@
         </div>
         </form>
       </div>
+      <div v-show="state.postEvents.length > 0" class="text-red-500"> New Post! refresh site!</div>
       <div class="w-full mt-4 text-white">
         <Post v-for="post in posts" :key="post.id" :post="post" class="px-4 border-b border-gray-600" />
       </div>
@@ -37,10 +38,14 @@
   import Post from "@/components/Post.vue";
 import dataService from "@/services/dataService";
 import { useAuthStore } from "@/stores/authStore";
+import { socket, state } from '@/socket/socket.js';
   
   export default {
     components: {
       Post
+    },
+    setup() {
+      return {state};
     },
     data() {
       return {
@@ -58,7 +63,9 @@ import { useAuthStore } from "@/stores/authStore";
         dataService.addPost(newPost).then(() => {
             this.fetchPosts(useAuthStore().user.userId);
             this.newPostContent = "";
-        });
+        }).then(() => {
+          socket.emit("post", newPost)
+        })
       },
       fetchPosts(userId) {
         dataService.fetchPosts(userId).then((res) => {
