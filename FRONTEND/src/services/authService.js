@@ -4,7 +4,7 @@ const authClient = axios.create({
   baseURL: `https://localhost:3000/auth`,
   withCredentials: true,
   headers: {
-    origin: "https://localhost:3000",
+    // origin: "https://localhost:5173", // ?
     "Content-Type": "application/json",
   },
 });

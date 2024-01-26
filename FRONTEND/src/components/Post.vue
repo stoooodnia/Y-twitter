@@ -41,7 +41,7 @@
           <path d="M15.1 18H3"></path>
         </svg>
       </button>
-      <button class="h-10 w-10 hover:text-green-500 transition-colors">    
+      <button @click="toggleShare" class="h-10 w-10 hover:text-green-500 transition-colors">    
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"
@@ -77,6 +77,59 @@
     </svg>
   </button>
     </div>
+<!--  -->
+    <div v-show="showShare" @mouseleave="toggleShare" class="pl-12">
+      <button class="p-1 text-white ml-2 mb-2 hover:text-green-500 transition-colors flex gap-2 items-center">
+        <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="h-5 w-5 "
+    >
+      <path d="m17 2 4 4-4 4"></path>
+      <path d="M3 11v-1a4 4 0 0 1 4-4h14"></path>
+      <path d="m7 22-4-4 4-4"></path>
+      <path d="M21 13v1a4 4 0 0 1-4 4H3"></path>
+        </svg>
+        Share content
+      </button>
+      <button class=" p-1 text-white ml-2 mb-2 hover:text-green-500 transition-colors flex gap-2 items-center">
+        <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="h-5 w-5 "
+    >
+      <path d="m17 2 4 4-4 4"></path>
+      <path d="M3 11v-1a4 4 0 0 1 4-4h14"></path>
+      <path d="m7 22-4-4 4-4"></path>
+      <path d="M21 13v1a4 4 0 0 1-4 4H3"></path>
+        </svg>
+        Quote
+      </button>
+    </div>
+    <!-- <div v-if="showReplies" class="px-4 py-2 border border-gray-300 rounded-md">
+          <button @click="toggleReplies" class="text-gray-500 hover:text-gray-700 ml-2 mb-2">
+            <svg class="w-8 h-8 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6m0 12L6 6"/>
+            </svg>
+          </button>
+          <textarea v-model="newReply" rows="3" class="w-full border border-gray-300 rounded-md mb-2 p-2" placeholder="Add reply..."></textarea>
+          <button @click="addReply" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">Add reply</button>
+        </div> -->
+<!--  -->
     <div v-if="showReplies" class="px-4 py-2 border border-gray-300 rounded-md">
       <button @click="toggleReplies" class="text-gray-500 hover:text-gray-700 ml-2 mb-2">
         <svg class="w-8 h-8 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -106,6 +159,7 @@ export default {
     return {
       user: {},
       showReplies: false,
+      showShare: false,
       newReply: '',
       replies: [],
     };
@@ -118,7 +172,13 @@ export default {
   methods: {
     toggleReplies() {
       this.fetchReplies()
+      this.showShare = false;
       this.showReplies = !this.showReplies;
+    },
+    toggleShare() {
+      this.showReplies = false;
+      this.showShare = !this.showShare;
+    
     },
     addReply() {
       const data = {
