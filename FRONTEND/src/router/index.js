@@ -10,7 +10,7 @@ const router = createRouter({
       component: () => import("../views/RegisterView.vue"),
     },
     {
-      path: "/home",
+      path: "/",
       name: "home",
       component: () => import("../views/HomeView.vue"),
       beforeEnter: authGuard,

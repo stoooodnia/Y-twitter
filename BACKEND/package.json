@@ -10,7 +10,6 @@
     "bcrypt": "^5.1.1",
     "connect-history-api-fallback": "^2.0.0",
     "connect-neo4j-user": "^1.0.4",
-    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
@@ -20,6 +19,7 @@
     "https": "^1.0.0",
     "memorystore": "^1.6.7",
     "neo4j-driver": "^5.16.0",
+    "nodemon": "^3.0.3",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "pino": "^8.17.2",
@@ -27,10 +27,7 @@
     "socket.io": "^4.7.4",
     "uuid": "^9.0.1"
   },
-  "devDependencies": {
-    "nodemon": "^3.0.3",
-    "pino-pretty": "^10.3.1"
-  },
+  "devDependencies": {},
   "scripts": {
     "start": "node src/main.js | pino-pretty",
     "dev": "nodemon src/main.js | pino-pretty"

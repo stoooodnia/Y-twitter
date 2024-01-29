@@ -50,16 +50,11 @@
           authClient.register(data).then((response) => {
             if(response.status === 201) {
 
-              this.$router.push({ path: "/login" });
+              this.$router.push({ name: "login" });
             }
-            this.$router.push({ path: "/home" });
+            this.$router.push({ name: "home" });
           });
       },
     },
   };
   </script>
-  
-  <style scoped>
-  /* Add any additional styles or overrides specific to this component */
-  </style>
-  

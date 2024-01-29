@@ -19,7 +19,7 @@
         </div>
         <nav class="mt-10 px-2 space-y-1">
           <RouterLink
-            to="/home"
+            to="/"
             :class="{ 'bg-gray-900 text-white': page === 'home', 'text-gray-300 hover:text-white hover:bg-gray-700': page !== 'home'}"
             class=" flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-white "
           >
@@ -109,7 +109,7 @@
           </RouterLink>
   
           <RouterLink
-            to="/home"
+            to="/"
             :class="{ 'bg-gray-900 text-white': page === 'hoe', 'text-gray-300 hover:text-white hover:bg-gray-700': page !== 'ome'}"
             class=" flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md "          >
           <svg
@@ -130,7 +130,7 @@
           </RouterLink>
   
           <RouterLink
-            to="/home"
+            to="/"
             :class="{ 'bg-gray-900 text-white': page === 'hme', 'text-gray-300 hover:text-white hover:bg-gray-700': page !== 'hme'}"
             class=" flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md "          >
           <svg
@@ -178,7 +178,7 @@
           </RouterLink>
   
           <RouterLink
-            to="/home"
+            to="/"
             :class="{ 'bg-gray-900 text-white': page === 'hoe', 'text-gray-300 hover:text-white hover:bg-gray-700': page !== 'hme'}"
             class=" flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md "          >
           <svg
@@ -214,7 +214,7 @@ import { useAuthStore } from '@/stores/authStore';
     data() {
         return {
             page: "",
-            userId: useAuthStore().user.userId ? useAuthStore().user.userId : "1",
+            userId: useAuthStore().user.userId ? useAuthStore().user.userId : "1", // TODO redirect to 404
         };
     },
     watch: {
