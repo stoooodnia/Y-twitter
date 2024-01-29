@@ -18,9 +18,8 @@ const PWD = process.env.PWD;
 const http = require("http");
 const server = http.createServer(app);
 // // socket.io setup
-const { Server } = require("socket.io");
 const { getUserById } = require("./models/users.model.js");
-const io = new Server(server, {
+const io = require("socket.io")(server, {
   cors: {
     origin: "http://localhost:5173",
     credentials: true,
@@ -36,12 +35,11 @@ io.use(wrapper(passport.initialize()));
 io.use(wrapper(passport.session()));
 
 io.use((socket, next) => {
-  logger.fatal(socket.request.session);
-  // if (socket.request.isAuthenticated()) {
-  next();
-  // } else {
-  //   next(new Error("unauthorized"));
-  // }
+  if (socket.request.user) {
+    next();
+  } else {
+    next(new Error("unauthorized"));
+  }
 });
 
 const socketMenager = require("./socket/socketMenager.js");

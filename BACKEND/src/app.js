@@ -8,7 +8,7 @@ const app = express();
 // logger setup
 const logger = require("./config/logger.config.js");
 const pinoHttp = require("pino-http");
-app.use(pinoHttp({ logger, prettyPrint: true })); // log all requests
+// app.use(pinoHttp({ logger, prettyPrint: true })); // log all requests
 
 // cors
 const cors = require("cors");
@@ -36,7 +36,6 @@ initDatabase.configNeo4j();
 const expressSession = require("express-session");
 const MemoryStore = require("memorystore")(expressSession);
 const memoryStore = new MemoryStore({ checkPeriod: 60 * 1000 }); // 1 minute
-
 const secret = process.env.SECRET_KEY || "super secret key";
 
 const session = expressSession({
