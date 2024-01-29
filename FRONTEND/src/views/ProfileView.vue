@@ -1,5 +1,7 @@
 <template>
-  <div class="dark w-full min-h-screen bg-black text-white">
+    <div class="min-h-screen max-w-screen flex bg-black justify-center">
+      <NavBarView class="w-1/3"/> 
+      <div class="dark w-full min-h-screen bg-black text-white">
     <header class="relative h-[200px] overflow-hidden">
       <img
           :src="user.bgPicture"
@@ -79,11 +81,17 @@
       </div>
     </main>
   </div>
+      
+    <RightBarView />
+  </div>
+
 </template>
 
 <script>
 import FollowButton from "@/components/FollowButton.vue";
 import Post from "@/components/Post.vue";
+import NavBarView from "@/views/NavBarView.vue";
+import RightBarView from "@/views/RightBarView.vue";
 import dataService from "@/services/dataService.js";
 import { useAuthStore } from "@/stores/authStore.js";
 import { toRaw } from "vue";
@@ -92,7 +100,9 @@ import { socket } from "@/socket/socket.js";
 export default {
   components: {
     Post,
-    FollowButton
+    FollowButton,
+    NavBarView,
+    RightBarView,
 },
   data() {
     return {

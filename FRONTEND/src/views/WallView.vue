@@ -1,5 +1,7 @@
 <template>
-    <div class="w-full min-h-screen flex-col items-center border-x border-gray-600  ">
+  <div class="min-h-screen max-w-screen flex bg-black justify-center">
+      <NavBarView class="w-1/3"/>
+        <div class="w-full min-h-screen flex-col items-center border-x border-gray-600  ">
       <div class=" text-white mx-auto flex flex-col gap-4 text-xl py-2 border-b border-gray-600 ">
         <form @submit.prevent="submitPost">
             <div class="flex items-start gap-4 px-4 mt-6">
@@ -32,16 +34,24 @@
         <Post v-for="post in posts" :key="post.id" :post="post" class="px-4 border-b border-gray-600" />
       </div>
     </div>
-  </template>
+
+    <RouterView />
+    <RightBarView />
+  </div>
+</template>
   
-  <script>
+<script>
   import Post from "@/components/Post.vue";
-import dataService from "@/services/dataService";
-import { useAuthStore } from "@/stores/authStore";
-import { socket, state } from '@/socket/socket.js';
+  import NavBarView from "@/views/NavBarView.vue";
+  import RightBarView from "@/views/RightBarView.vue";
+  import dataService from "@/services/dataService";
+  import { useAuthStore } from "@/stores/authStore";
+  import { socket, state } from '@/socket/socket.js';
   
   export default {
     components: {
+      NavBarView,
+      RightBarView,
       Post
     },
     setup() {

@@ -38,6 +38,11 @@ const router = createRouter({
       component: () => import("../views/EditProfileView.vue"),
       beforeEnter: authGuard,
     },
+    {
+      path: "/:pathMatch(.*)*",
+      name: "notFound",
+      component: () => import("../views/NotFoundView.vue"),
+    },
   ],
 });
 
