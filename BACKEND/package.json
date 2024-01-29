@@ -8,6 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "connect-history-api-fallback": "^2.0.0",
     "connect-neo4j-user": "^1.0.4",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -23,6 +24,7 @@
     "passport-local": "^1.0.0",
     "pino": "^8.17.2",
     "pino-http": "^9.0.0",
+    "socket.io": "^4.7.4",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

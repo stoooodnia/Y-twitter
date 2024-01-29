@@ -12,7 +12,7 @@ const pinoHttp = require("pino-http");
 
 // cors
 const cors = require("cors");
-app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
+app.use(cors({ credentials: true, origin: "https://localhost:5173" }));
 
 // security headers
 // const helmet = require("helmet");
@@ -63,6 +63,20 @@ const isAuthenticated = require("./middlewares/isAuthenticated.middleware.js");
 app.use("/auth", require("./routes/auth.route.js"));
 app.use("/user", isAuthenticated, require("./routes/user.route.js"));
 app.use("/posts", isAuthenticated, require("./routes/posts.route.js"));
+
+// vue app
+const path = __dirname + "/../../FRONTEND/dist/";
+app.use(express.static(path));
+app.get("/", function (_req, res) {
+  res.sendFile(path + "index.html");
+});
+const history = require("connect-history-api-fallback");
+app.use(
+  history({
+    verbose: true,
+  })
+);
+app.use(express.static(path));
 
 // app exports
 module.exports = { app, session };

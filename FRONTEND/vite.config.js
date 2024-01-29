@@ -1,5 +1,4 @@
 import { fileURLToPath, URL } from "node:url";
-import fs from "node:fs";
 
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
@@ -12,6 +11,10 @@ export default defineConfig({
   //     cert: fs.readFileSync("./ssl/cert.pem"),
   //   },
   // },
+  build: {
+    // outDir: "../BACKEND/src/public",
+    emptyOutDir: true,
+  },
   plugins: [vue()],
   resolve: {
     alias: {

@@ -6,7 +6,7 @@ export const state = reactive({
   postEvents: [],
 });
 
-export const socket = io("http://localhost:3000", {
+export const socket = io("https://localhost:3000", {
   withCredentials: true,
 });
 

@@ -36,9 +36,9 @@ module.exports = function initializePassport(passport) {
     new passportLocal.Strategy({ usernameField: "username" }, validateUser)
   );
   passport.serializeUser((user, done) => done(null, user.userId));
-  passport.deserializeUser(async (userId, done) => {
+  passport.deserializeUser((userId, done) => {
     const query = "MATCH (user:User) WHERE user.userId = $userId RETURN user";
-    await executeReadTransaction(query, { userId })
+    executeReadTransaction(query, { userId })
       .then((result) => {
         // parsing result
         const user = result.records[0]

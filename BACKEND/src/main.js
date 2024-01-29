@@ -7,21 +7,21 @@ const fs = require("fs");
 const https = require("https");
 
 const PWD = process.env.PWD;
-// const server = https.createServer(
-//   {
-//     key: fs.readFileSync(`${PWD}/src/ssl/key.pem`),
-//     cert: fs.readFileSync(`${PWD}/src/ssl/cert.pem`),
-//   },
-//   app
-// );
+const server = https.createServer(
+  {
+    key: fs.readFileSync(`${PWD}/src/ssl/key.pem`), // __dirname
+    cert: fs.readFileSync(`${PWD}/src/ssl/cert.pem`),
+  },
+  app
+);
 
-const http = require("http");
-const server = http.createServer(app);
+// const http = require("http");
+// const server = http.createServer(app);
 // // socket.io setup
 const { getUserById } = require("./models/users.model.js");
 const io = require("socket.io")(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "https://localhost:5173",
     credentials: true,
   },
 });
