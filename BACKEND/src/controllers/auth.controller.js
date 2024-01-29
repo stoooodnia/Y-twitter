@@ -1,5 +1,6 @@
 const logger = require("../config/logger.config.js");
 const { register } = require("../models/users.model.js");
+const passport = require("passport");
 
 // register post
 const registerUser = async (req, res) => {
@@ -8,7 +9,8 @@ const registerUser = async (req, res) => {
     // todo: add validation for req.body
     logger.warn(req.body);
     await register(req.body);
-    res.status(201).send({ success: true });
+    // log in use
+    loginAuthenticate(req, res);
   } catch (err) {
     logger.error(`Error registering user: ${err}`);
     res.status(err.status).send({ error: err.message });
@@ -17,14 +19,16 @@ const registerUser = async (req, res) => {
 
 // login post, authentication
 const loginAuthenticate = (req, res) => {
-  logger.info("Login user");
-  res.status(200).send({
-    userId: req.user.userId,
-    username: req.user.username,
-    email: req.user.email,
-    description: req.user.description,
-    profilePicture: req.user.profilePicture,
-    bgPicture: req.user.bgPicture,
+  passport.authenticate("local")(req, res, function (err) {
+    logger.info("Login user");
+    res.status(200).send({
+      userId: req.user.userId,
+      username: req.user.username,
+      email: req.user.email,
+      description: req.user.description,
+      profilePicture: req.user.profilePicture,
+      bgPicture: req.user.bgPicture,
+    });
   });
 };
 

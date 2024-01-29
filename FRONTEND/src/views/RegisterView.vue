@@ -31,6 +31,8 @@
   
   <script>
   import authClient from "@/services/authService.js";
+  import { useAuthStore } from "@/stores/authStore";
+  import { socket } from "@/socket/socket.js";
   export default {
     data() {
       return {
@@ -48,11 +50,12 @@
             password: this.password,
           };
           authClient.register(data).then((response) => {
-            if(response.status === 201) {
-
-              this.$router.push({ name: "login" });
-            }
-            this.$router.push({ name: "home" });
+            const user = response.data
+            const store = useAuthStore();
+            console.log(user.userId)
+            store.setUser(user);
+            socket.connect();
+            this.$router.push({ name: "wall" });
           });
       },
     },

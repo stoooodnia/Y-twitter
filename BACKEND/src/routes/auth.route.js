@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const passport = require("passport");
 
 const {
   registerUser,
@@ -13,7 +12,7 @@ const {
 router.post("/register", registerUser);
 
 // login user
-router.post("/login", passport.authenticate("local"), loginAuthenticate);
+router.post("/login", loginAuthenticate);
 
 // logout user
 router.post("/logout", logout);
