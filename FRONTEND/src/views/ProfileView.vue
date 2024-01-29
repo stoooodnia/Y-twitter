@@ -144,6 +144,8 @@ export default {
         this.myProfile = false;
         dataService.getUserById(userId).then((response) => {
           this.user = response.data.user;
+        }).catch(() => {
+          this.$router.push({ name: 'notFound' });
         });
       }
 
