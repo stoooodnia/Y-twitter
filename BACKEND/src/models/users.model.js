@@ -7,6 +7,32 @@ const {
 const { v4: uuidv4 } = require("uuid");
 const MyError = require("../utils/MyError.js");
 
+async function getFollowersOfUserByUserId(userId) {
+  try {
+    const query = `
+        MATCH (follower:User)-[:IS_FOLLOWING]->(user:User {userId: $userId})
+        RETURN follower
+      `;
+
+    const params = {
+      userId: userId,
+    };
+
+    const result = await executeReadTransaction(query, params);
+
+    const followers = result.records.map(
+      (record) => record.get("follower").properties
+    );
+
+    return followers;
+  } catch (error) {
+    throw new MyError(
+      `Error during getting followers of user: ${error.message}`,
+      error.status
+    );
+  }
+}
+
 async function getUserById(userId) {
   try {
     const query = `
@@ -99,4 +125,5 @@ async function register(userData) {
 module.exports = {
   register,
   getUserById,
+  getFollowersOfUserByUserId,
 };

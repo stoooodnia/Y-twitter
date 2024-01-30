@@ -1,26 +1,35 @@
 const logger = require("../config/logger.config.js");
-const userSockets = new Map();
+const { getFollowersOfUserByUserId } = require("../models/users.model.js");
+
+const activeSessions = new Map();
 
 const socketManager = (io) => {
   io.on("connect", (socket) => {
-    console.log(`new connection ${socket.id}`);
-    // User is undefined
-    console.log(socket.request.user);
     socket.on("whoami", (cb) => {
       cb(socket.request.user ? socket.request.user.username : "");
     });
-    const session = socket.request.session;
-    console.log(
-      `Zapisujemy identyfikator gniazdka (socket id) [${socket.id}] w danych sesji [${session.id}]`
-    );
-    session.socketId = socket.id;
-    session.save();
+    activeSessions.set(socket.request.user.username, socket.id);
+    logger.info(`socket connected: ${socket.id}`);
+
     socket.on("disconnect", () => {
-      logger.info("User disconnected");
+      activeSessions.delete(socket.request.user.username);
+      logger.info(`socket disconnected: ${socket.id}`);
     });
 
-    socket.on("post", (data) => {
-      io.emit("post", data);
+    socket.on("post", async (data) => {
+      const followers = await getFollowersOfUserByUserId(
+        socket.request.user.userId
+      );
+      console.log(followers);
+      followers.forEach((follower) => {
+        const followerSocketId = activeSessions.get(follower.username);
+        if (followerSocketId) {
+          io.to(followerSocketId).emit("post", {
+            username: socket.request.user.username,
+            content: data.content,
+          });
+        }
+      });
     });
   });
 };

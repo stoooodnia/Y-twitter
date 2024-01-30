@@ -1,4 +1,5 @@
 const { getUserById } = require("../models/users.model.js");
+const logger = require("./logger.config.js");
 
 const initSockets = (passport, server, session) => {
   const io = require("socket.io")(server, {
@@ -17,8 +18,10 @@ const initSockets = (passport, server, session) => {
 
   io.use((socket, next) => {
     if (socket.request.user) {
+      logger.warn("socket authorized");
       next();
     } else {
+      logger.warn("socket unauthorized");
       next(new Error("unauthorized"));
     }
   });
