@@ -45,7 +45,7 @@ const executeWriteTransaction = async (statement, params = {}) => {
     return result;
   } catch (error) {
     logger.error("Neo4j write transaction error: ", error);
-    throw new Error(error);
+    // throw new Error(error);
   }
 };
 
@@ -59,7 +59,7 @@ const executeReadTransaction = async (statement, params = {}) => {
     return result;
   } catch (error) {
     logger.error("Neo4j read transaction error: ", error);
-    throw new Error(error);
+    // throw new Error(error);
   }
 };
 
