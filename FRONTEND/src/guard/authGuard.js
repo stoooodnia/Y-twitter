@@ -18,6 +18,6 @@ export const authGuard = async (to, from, next) => {
     }
   } catch (error) {
     console.error("Error in authGuard:", error);
-    next({ name: "home" });
+    next({ name: "connectionError" });
   }
 };

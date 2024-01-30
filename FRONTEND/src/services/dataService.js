@@ -9,6 +9,9 @@ const apiClient = axios.create({
 });
 
 export default {
+  healthCheck() {
+    return apiClient.get(`/health-check`);
+  },
   updateUserProfile(data) {
     return apiClient.put(`/user/update-profile`, data);
   },

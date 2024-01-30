@@ -1,4 +1,5 @@
-import { authGuard } from "@/guard/authGuard";
+import { authGuard } from "@/guard/authGuard.js";
+import { healthGuard } from "@/guard/healthGuard";
 import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
@@ -8,6 +9,7 @@ const router = createRouter({
       path: "/register",
       name: "register",
       component: () => import("../views/RegisterView.vue"),
+      beforeEnter: healthGuard,
     },
     {
       path: "/",
@@ -25,6 +27,7 @@ const router = createRouter({
       path: "/login",
       name: "login",
       component: () => import("../views/LoginView.vue"),
+      beforeEnter: healthGuard,
     },
     {
       path: "/profile/:userId",
@@ -42,6 +45,12 @@ const router = createRouter({
       path: "/:pathMatch(.*)*",
       name: "notFound",
       component: () => import("../views/NotFoundView.vue"),
+      beforeEnter: healthGuard,
+    },
+    {
+      path: "/connection-error",
+      name: "connectionError",
+      component: () => import("../views/ConnectionErrorView.vue"),
     },
   ],
 });

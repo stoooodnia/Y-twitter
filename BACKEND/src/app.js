@@ -60,6 +60,7 @@ app.use(passport.session());
 // routes
 const isAuthenticated = require("./middlewares/isAuthenticated.middleware.js");
 
+app.get("/health-check", require("./controllers/healthCheck.controller.js"));
 app.use("/auth", require("./routes/auth.route.js"));
 app.use("/user", isAuthenticated, require("./routes/user.route.js"));
 app.use("/posts", isAuthenticated, require("./routes/posts.route.js"));
