@@ -9,6 +9,7 @@ export const useNotificationStore = defineStore({
     return {
       connected: false,
       notifications: [],
+      newPostsAvailable: 0,
     };
   },
   actions: {
@@ -28,6 +29,12 @@ export const useNotificationStore = defineStore({
     },
     getNotificationsCount() {
       return this.notifications.length;
+    },
+    addNewPost() {
+      this.newPostsAvailable++;
+    },
+    clearNewPosts() {
+      this.newPostsAvailable = 0;
     },
   },
   persist: true,

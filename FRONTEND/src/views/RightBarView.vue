@@ -7,14 +7,15 @@
 
 <script>
 import SearchBar from '@/components/SearchBar.vue';
+import { useNotificationStore } from '@/stores/notificationStore';
 export default {
     components: {
         SearchBar,
     },
-    mathods: {
-      showNavbar() {
-        return this.$route.name !== "login" && this.$route.name !== "register" && this.$route.name !== "home";
+    computed: {
+      newPostsAvailable() {
+        return useNotificationStore().newPostsAvailable;
       }
-    },
+    }
 }
 </script>

@@ -21,7 +21,7 @@ socket.on("disconnect", () => {
 
 socket.on("post", (data) => {
   console.log("post event received: ", data);
-  notificationStore.addNotification(data);
+  notificationStore.addNewPost();
 });
 
 socket.on("follow", (data) => {

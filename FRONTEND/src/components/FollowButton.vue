@@ -56,6 +56,7 @@ export default {
                 followerId,
                 followingId
             }
+            console.log(data)
             dataService.checkFollow(data).then((res) => {
                 this.user.followed = res.data.following;
                 console.log("ok")

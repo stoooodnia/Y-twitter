@@ -1,4 +1,5 @@
 <template>
+  <NewPostsAlert />
   <div class="min-h-screen max-w-screen flex bg-black justify-center">
     <NavBarView :route="$route"/> 
       <div class="w-full min-h-screen flex-col items-center border-x border-gray-600  ">
@@ -32,7 +33,7 @@
         <!-- <div v-show="state.postEvents.length > 0" class="text-red-500"> New Post! refresh site!</div> -->
         <div class="w-full mt-4 text-white">
           <Post v-for="post in posts" :key="post.id" :post="post" class="px-4 border-b border-gray-600" />
-          <div> new posts available</div>
+          <!-- <div> new posts available</div> -->
         </div> 
       </div>
     <RightBarView />
@@ -46,13 +47,15 @@
   import dataService from "@/services/dataService";
   import { useAuthStore } from "@/stores/authStore";
   import { socket } from '@/socket/socket.js';
+import NewPostsAlert from "@/components/NewPostsAlert.vue";
   
   export default {
     components: {
-      NavBarView,
-      RightBarView,
-      Post
-    },
+    NavBarView,
+    RightBarView,
+    Post,
+    NewPostsAlert
+},
     data() {
       return {
         user: useAuthStore().user,
