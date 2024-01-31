@@ -109,7 +109,7 @@ export default {
       myProfile: false,
       user: {},
       posts: [],
-      currentView: 'POSTS', // Początkowy widok
+      currentView: 'POSTS', 
     };
   },
   watch: {

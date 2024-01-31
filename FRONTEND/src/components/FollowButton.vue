@@ -28,16 +28,15 @@ export default {
             required: true,
         }
     },
-        data() {
-            return {
-                user: {},
-            }
-        },
+    data() {
+        return {
+            user: {},
+        }
+    },
     watch: {
         profile: {
             handler: "updateUser",
-            immediate: true,
-        }
+        },
     },
     mounted() {
         this.updateUser();
@@ -59,6 +58,9 @@ export default {
             }
             dataService.checkFollow(data).then((res) => {
                 this.user.followed = res.data.following;
+                console.log("ok")
+            }).catch(() => {
+                console.log("error here")
             })
         },
         follow(followingId) {

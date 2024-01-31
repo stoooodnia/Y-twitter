@@ -105,10 +105,6 @@ import { useAuthStore } from '@/stores/authStore';
         required: true,
       },
     },
-    created() {
-      console.log(this.route);
-    },
-    
     data() {
         return {
             page: this.route.name,
