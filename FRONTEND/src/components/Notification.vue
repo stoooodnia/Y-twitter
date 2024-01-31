@@ -6,14 +6,20 @@
           <img :src="notification.user.profilePicture" alt="Profile Picture" >
         </span>
         <div class="grid gap-1">
-            <p class="text-sm font-medium">{{ notification.user.username }} followed you</p>
+            <div class="flex justify-between">
+                <p class="text-sm font-medium">{{ notification.user.username }} followed you</p>
+                <button @click="markAsRead" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium border text-white border-white  hover:bg-white hover:text-gray-900 h-9 rounded-md px-3">
+                mark as read
+                </button>
+            </div>
             <p class="text-sm text-gray-500 dark:text-gray-400">{{ time }}</p>
         </div>
+
     </div>
 </template>
 
 <script>
-
+import { useNotificationStore } from "@/stores/notificationStore";
 export default {
     props: {
         notification: {
@@ -68,8 +74,11 @@ export default {
                 this.time = `${seconds}s`;
             }
             this.time += " ago";
-            console.log(this.time)
         },
+        markAsRead(){
+            console.log(this.notification.index)
+            useNotificationStore().clearNotificationByIndex(this.notification.index)
+        }
     },
 }
 </script>

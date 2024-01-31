@@ -15,22 +15,11 @@
   import { useNotificationStore } from '@/stores/notificationStore';
   
   export default {
-    data() {
-      return {
-        count: 0,
-      };
-    },
-    watch: {
-      count: {
-        handler: "updateCount",
-        immediate: true,
+    computed: {
+      count() {
+        return useNotificationStore().getNotificationsCount();
       }
     },
-    methods: {
-      updateCount() {
-        this.count = useNotificationStore().getNotificationsCount();
-      }
-    }
-  };
+} 
   </script>
   

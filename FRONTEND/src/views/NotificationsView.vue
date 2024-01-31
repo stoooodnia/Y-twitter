@@ -38,12 +38,10 @@
       RightBarView,
       Notification
     },
-    data() {
-      return {
-        notifications: useNotificationStore().notifications,
-      };
-    },
-    methods: {
-    },
+    computed: {
+      notifications() {
+        return useNotificationStore().getNotificationsWithIndex();
+      }
+    }
   };
 </script>

@@ -28,11 +28,11 @@ export default {
             required: true,
         }
     },
-    data() {
-        return {
-            user: {},
-        }
-    },
+        data() {
+            return {
+                user: {},
+            }
+        },
     watch: {
         profile: {
             handler: "updateUser",

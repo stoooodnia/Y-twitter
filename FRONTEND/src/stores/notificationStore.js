@@ -18,6 +18,9 @@ export const useNotificationStore = defineStore({
     clearNotifications() {
       this.notifications = [];
     },
+    clearNotificationByIndex(index) {
+      this.notifications.splice(index, 1);
+    },
     getNotificationsWithIndex() {
       return this.notifications.map((notification, index) => {
         return { ...notification, index };
