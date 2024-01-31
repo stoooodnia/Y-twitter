@@ -28,13 +28,10 @@
         components: {
             Transition,
         },
-        data() {
-            return {
-                count: 0,
-            }
-        },
-        mounted() {
-            this.count = useNotificationStore().newPostsAvailable;
+        computed: {
+            count() {
+                return useNotificationStore().newPostsAvailable;
+            },
         },
         methods: {
             scrollAndRefresh() {
