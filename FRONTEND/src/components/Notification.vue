@@ -1,17 +1,13 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <div class="mb-4 grid grid-cols-[50px_1fr] items-start pb-4 last:mb-0 last:pb-0">
-        <span class="relative flex shrink-0 overflow-hidden rounded-full h-8 w-8">
-            <span
-            class="relative flex shrink-0 overflow-hidden rounded-full w-14 h-14 border-2 border-white"
-          >
+    <div class="mb-4 grid grid-cols-[50px_1fr] items-start pb-4 ">
+
+        <span class="relative flex shrink-0 overflow-hidden rounded-full w-14 h-14 border-2 border-white">
           <img :src="notification.user.profilePicture" alt="Profile Picture" >
-    
-          </span>
         </span>
         <div class="grid gap-1">
             <p class="text-sm font-medium">{{ notification.user.username }} followed you</p>
-            <p class="text-sm text-gray-500 dark:text-gray-400">{{ time }} ago</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">{{ time }}</p>
         </div>
     </div>
 </template>
@@ -27,8 +23,14 @@ export default {
     },
     data() {
         return {
-            time: this.calculateTime(),
+            time: "",
         };
+    },
+    watch: {
+        "time":{
+            handler: "calculateTime",
+            immediate: true,
+        },
     },
     methods: {
         calculateTime(){
@@ -41,19 +43,32 @@ export default {
             const days = Math.floor(hours / 24);
             const months = Math.floor(days / 30);
             const years = Math.floor(months / 12);
-            if (years > 0) {
-                this.time = `${years}y`;
-            } else if (months > 0) {
-                this.time = `${months}m`;
-            } else if (days > 0) {
-                this.time = `${days}d`;
-            } else if (hours > 0) {
-                this.time = `${hours}h`;
-            } else if (minutes > 0) {
-                this.time = `${minutes}m`;
+            if (years == 1) {
+                this.time = `${years} year`;
+            } else if (years > 1) {
+                this.time = `${years} years`;
+            } else if (months == 1) {
+                this.time = `${months} month`;
+            } else if (months > 1) {
+                this.time = `${months} months`;
+            } else if (days == 1) {
+                this.time = `${days} day`;
+            } else if (days > 1) {
+                this.time = `${days} days`;
+            }
+            else if (hours == 1) {
+                this.time = `${hours} hour`;
+            } else if (hours > 1) {
+                this.time = `${hours} hours`;
+            } else if (minutes == 1) {
+                this.time = `${minutes} minute`;
+            } else if (minutes > 1) {
+                this.time = `${minutes} minutes`;
             } else {
                 this.time = `${seconds}s`;
             }
+            this.time += " ago";
+            console.log(this.time)
         },
     },
 }

@@ -12,8 +12,8 @@
                 Notifications
               </h3>
             </div>
-            <div class="p-6" v-if="notifications.length > 0">
-              <Notification v-for="notification in notifications" :key="notification.createdAt" :notification="notification" class="group flex flex-col gap-4 py-2 px-4 border-b border-gray-600"/>
+            <div class="p-6 w-full" v-if="notifications.length > 0">
+              <Notification v-for="notification in notifications" :key="notification.createdAt" :notification="notification" class="group flex flex-col gap-4 py-2 px-4 border-b border-gray-600 w-full"/>
             </div>
             <div class="p-6 text-gray-600" v-else>
               <h1>
