@@ -9,8 +9,9 @@ const {
   checkFollow,
 } = require("../controllers/user.controller.js");
 
-// change description
+// router "/user"
 
+// update description and photos
 router.put("/update-profile", changeProfile);
 
 // create follow relationship

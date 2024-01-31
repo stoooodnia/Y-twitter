@@ -1,5 +1,5 @@
 <template>
-    <div class="sticky top-0 h-screen flex flex-col items-center">
+    <div class="sticky top-0 h-screen">
         <SearchBar/>
     </div>
 

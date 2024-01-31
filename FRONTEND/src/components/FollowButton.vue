@@ -19,6 +19,7 @@
 <script>
 import dataService from '@/services/dataService';
 import { useAuthStore } from '@/stores/authStore';
+import { socket } from '@/socket/socket.js';
 
 export default {
     props: {
@@ -68,6 +69,8 @@ export default {
             }
             dataService.follow(data).then(() => {
                 this.user.followed = true;
+                data.createdAt = new Date();
+                socket.emit("follow", data)
                 // location.reload();
             })
         },

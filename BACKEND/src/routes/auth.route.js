@@ -8,6 +8,8 @@ const {
   isAuthenticated,
 } = require("../controllers/auth.controller.js");
 
+// router "/auth"
+
 // register new user
 router.post("/register", registerUser);
 

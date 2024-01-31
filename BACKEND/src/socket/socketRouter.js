@@ -1,5 +1,8 @@
 const logger = require("../config/logger.config.js");
-const { getFollowersOfUserByUserId } = require("../models/users.model.js");
+const {
+  getFollowersOfUserByUserId,
+  getUserById,
+} = require("../models/users.model.js");
 
 const activeSessions = new Map();
 
@@ -30,6 +33,19 @@ const socketRouter = (io) => {
           });
         }
       });
+    });
+
+    socket.on("follow", async (data) => {
+      const follower = await getUserById(data.followerId);
+      const followed = await getUserById(data.followingId);
+      const followedSocketId = activeSessions.get(followed.username);
+      if (followedSocketId) {
+        io.to(followedSocketId).emit("follow", {
+          follower: follower,
+          followed: followed,
+          createdAt: data.createdAt,
+        });
+      }
     });
   });
 };
