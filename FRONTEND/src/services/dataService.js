@@ -36,8 +36,8 @@ export default {
   addPost(data) {
     return apiClient.post(`/posts/add`, data);
   },
-  fetchPosts(userId) {
-    return apiClient.get(`/posts/fetch/${userId}`);
+  fetchPosts(userId, from, to) {
+    return apiClient.get(`/posts/fetch/${userId}?from=${from}&to=${to}`);
   },
   addReply(data) {
     return apiClient.post(`/posts/add-reply`, data);

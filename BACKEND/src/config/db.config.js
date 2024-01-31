@@ -38,8 +38,8 @@ const neo4j = () => {
 const executeWriteTransaction = async (statement, params = {}) => {
   try {
     const session = neo4j().session();
-    const result = await session.executeWrite((txc) =>
-      txc.run(statement, params)
+    const result = await session.executeWrite(
+      async (txc) => await txc.run(statement, params)
     );
     session.close();
     return result;
@@ -51,8 +51,8 @@ const executeWriteTransaction = async (statement, params = {}) => {
 const executeReadTransaction = async (statement, params = {}) => {
   try {
     const session = neo4j().session();
-    const result = await session.executeRead((txc) =>
-      txc.run(statement, params)
+    const result = await session.executeRead(
+      async (txc) => await txc.run(statement, params)
     );
     session.close();
     return result;

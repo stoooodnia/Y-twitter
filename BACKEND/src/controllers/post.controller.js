@@ -4,6 +4,7 @@ const {
   executeWriteTransaction,
   executeReadTransaction,
 } = require("../config/db.config.js");
+const { int } = require("neo4j-driver");
 
 const addPost = async (req, res) => {
   try {
@@ -72,8 +73,8 @@ const getPostsByUserId = async (req, res) => {
 const fetchPosts = async (req, res) => {
   try {
     const { userId } = req.params;
+    const { from, to } = req.query;
 
-    // Sprawdź, czy użytkownik istnieje
     const userExistsQuery = "MATCH (user:User {userId: $userId}) RETURN user";
     const userExistsResult = await executeReadTransaction(userExistsQuery, {
       userId,
@@ -83,14 +84,20 @@ const fetchPosts = async (req, res) => {
       return res.status(400).send({ error: "User does not exist." });
     }
 
-    // Pobierz posty użytkowników, których obserwuje dany użytkownik
     const fetchPostsQuery = `
       MATCH (user:User {userId: $userId})-[:IS_FOLLOWING]->(following:User)-[:POSTED]->(post:Post)
       RETURN post
       ORDER BY post.createdAt DESC
+      SKIP $from
+      LIMIT $limit
     `;
+
+    const limit = parseInt(to) - parseInt(from);
+
     const fetchPostsResult = await executeReadTransaction(fetchPostsQuery, {
-      userId,
+      userId: userId,
+      from: int(from),
+      limit: int(limit),
     });
 
     const posts = fetchPostsResult.records.map(

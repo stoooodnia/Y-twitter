@@ -33,8 +33,11 @@
         <!-- <div v-show="state.postEvents.length > 0" class="text-red-500"> New Post! refresh site!</div> -->
         <div class="w-full mt-4 text-white">
           <Post v-for="post in posts" :key="post.id" :post="post" class="px-4 border-b border-gray-600" />
-          <!-- <div> new posts available</div> -->
+          <button @click="fetchNextPosts" class="text-white">
+          Fetch next posts
+        </button>
         </div> 
+
       </div>
     <RightBarView />
   </div>
@@ -44,6 +47,7 @@
   import Post from "@/components/Post.vue";
   import NavBarView from "@/views/NavBarView.vue";
   import RightBarView from "@/views/RightBarView.vue";
+  import { usePostsStore } from "@/stores/postsStore";
   import dataService from "@/services/dataService";
   import { useAuthStore } from "@/stores/authStore";
   import { socket } from '@/socket/socket.js';
@@ -60,9 +64,17 @@ import NewPostsAlert from "@/components/NewPostsAlert.vue";
       return {
         user: useAuthStore().user,
         newPostContent: "",
-        posts: this.fetchPosts(useAuthStore().user.userId),
+        // posts: this.fetchPosts(useAuthStore().user.userId),
       };
     },  
+    computed: {
+      posts() {
+        return usePostsStore().posts;
+      },
+    },
+    created() {
+      usePostsStore().fetchPosts(useAuthStore().user.userId);
+    },
     methods: {
       submitPost() {
         const newPost = {
@@ -76,12 +88,9 @@ import NewPostsAlert from "@/components/NewPostsAlert.vue";
           socket.emit("post", newPost)
         })
       },
-      fetchPosts(userId) {
-        dataService.fetchPosts(userId).then((res) => {
-            // console.log(res.data.posts);
-            this.posts = res.data.posts;
-        });
-      }
+      fetchNextPosts() {
+        usePostsStore().fetchNextPosts(useAuthStore().user.userId);
+      },
     }
   };
   </script>
