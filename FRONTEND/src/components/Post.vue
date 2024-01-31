@@ -225,7 +225,6 @@ export default {
       }).then(() => {
         dataService.getUserById(this.quotedPost.authorId).then((res) => {
           this.quoteUser = res.data.user;
-          console.log(this.quoteUser)
         })
       })
     }

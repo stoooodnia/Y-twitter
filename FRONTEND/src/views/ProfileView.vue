@@ -1,6 +1,6 @@
 <template>
-    <div class="min-h-screen max-w-screen flex bg-black justify-center">
-      <NavBarView class="w-1/3"/> 
+    <div class="min-h-screen max-w-screen flex bg-black justify-center ">
+      <NavBarView class=""/> 
       <div class="dark w-full min-h-screen bg-black text-white">
     <header class="relative h-[200px] overflow-hidden">
       <img
@@ -116,7 +116,7 @@ export default {
     '$route.params.userId': function(newUserId) {
       this.posts = [];
       this.loadUserData(newUserId);
-      console.log(this.user);
+      // console.log(this.user);
     },
     
   },

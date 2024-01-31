@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen max-w-screen flex bg-black justify-center">
-      <NavBarView class="w-1/3"/>
+      <NavBarView class=""/>
         <div class="w-full min-h-screen flex-col items-center border-x border-gray-600  ">
       <div class=" text-white mx-auto flex flex-col gap-4 text-xl py-2 border-b border-gray-600 ">
         <form @submit.prevent="submitPost">
@@ -29,7 +29,7 @@
         </div>
         </form>
       </div>
-      <div v-show="state.postEvents.length > 0" class="text-red-500"> New Post! refresh site!</div>
+      <!-- <div v-show="state.postEvents.length > 0" class="text-red-500"> New Post! refresh site!</div> -->
       <div class="w-full mt-4 text-white">
         <Post v-for="post in posts" :key="post.id" :post="post" class="px-4 border-b border-gray-600" />
       </div>
@@ -46,16 +46,13 @@
   import RightBarView from "@/views/RightBarView.vue";
   import dataService from "@/services/dataService";
   import { useAuthStore } from "@/stores/authStore";
-  import { socket, state } from '@/socket/socket.js';
+  import { socket } from '@/socket/socket.js';
   
   export default {
     components: {
       NavBarView,
       RightBarView,
       Post
-    },
-    setup() {
-      return {state};
     },
     data() {
       return {
@@ -79,7 +76,7 @@
       },
       fetchPosts(userId) {
         dataService.fetchPosts(userId).then((res) => {
-            console.log(res.data.posts);
+            // console.log(res.data.posts);
             this.posts = res.data.posts;
         });
       }

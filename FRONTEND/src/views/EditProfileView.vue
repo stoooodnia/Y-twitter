@@ -88,7 +88,7 @@
           .catch(() => {
             this.error = "Something went wrong!"
           });
-        console.log('Changes saved:', data);
+        // console.log('Changes saved:', data);
       },
     },
   };

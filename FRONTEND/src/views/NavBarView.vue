@@ -1,6 +1,6 @@
 <template>   
-      <div class="flex flex-col w-64 sticky top-0 h-max">
-        <div class="flex items-center justify-center mt-6 ">
+      <div class="flex flex-col sticky top-0 h-max w-1/5">
+        <div class="flex items-center justify-center mt-6">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -44,7 +44,7 @@
           <RouterLink
             to="/"
             :class="{ 'bg-gray-900 text-white': page === 'hoe', 'text-gray-300 hover:text-white hover:bg-gray-700': page !== 'ome'}"
-            class=" flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md "          >
+            class="w-full flex px-2 py-2 text-base leading-6 font-medium rounded-md "          >
           <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -60,6 +60,7 @@
           <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
         </svg>
             Notifications
+          <NotificationBubble class="ml-6 bg-transparent"/>
           </RouterLink>
   
           <RouterLink
@@ -137,10 +138,12 @@
         </nav>
       </div>
       
-  </template>
+</template>
   
   <script>
 import LogoutButton from '@/components/LogoutButton.vue';
+import NotificationBubble from '@/components/NotificationBubble.vue';
+
 import { useAuthStore } from '@/stores/authStore';
 
   export default {
@@ -155,7 +158,7 @@ import { useAuthStore } from '@/stores/authStore';
             this.page = this.$route.name;
         }
     },
-    components: { LogoutButton }
+    components: { LogoutButton, NotificationBubble }
 }
   
   </script>

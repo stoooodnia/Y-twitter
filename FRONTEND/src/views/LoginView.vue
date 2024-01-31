@@ -71,7 +71,7 @@
             username: this.username,
             password: this.password,
           };
-          console.log(data);
+          // console.log(data);
           console.log("Logging in...");
           authClient.login(data).then((response) => {
             const user = response.data

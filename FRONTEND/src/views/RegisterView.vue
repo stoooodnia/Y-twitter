@@ -52,7 +52,7 @@
           authClient.register(data).then((response) => {
             const user = response.data
             const store = useAuthStore();
-            console.log(user.userId)
+            // console.log(user.userId)
             store.setUser(user);
             socket.connect();
             this.$router.push({ name: "wall" });
