@@ -94,7 +94,7 @@ const server = https.createServer(
 
 // socket.io setup
 const io = require("./config/socket.config.js")(passport, server, session);
-require("./socket/socketMenager.js")(io);
+require("./socket/socketRouter.js")(io);
 
 // app exports
 module.exports = { server };

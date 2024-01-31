@@ -3,7 +3,7 @@ const { getFollowersOfUserByUserId } = require("../models/users.model.js");
 
 const activeSessions = new Map();
 
-const socketManager = (io) => {
+const socketRouter = (io) => {
   io.on("connect", (socket) => {
     socket.on("whoami", (cb) => {
       cb(socket.request.user ? socket.request.user.username : "");
@@ -34,4 +34,4 @@ const socketManager = (io) => {
   });
 };
 
-module.exports = socketManager;
+module.exports = socketRouter;

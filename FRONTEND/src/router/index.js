@@ -42,6 +42,12 @@ const router = createRouter({
       beforeEnter: authGuard,
     },
     {
+      path: "/notifications",
+      name: "notifications",
+      component: () => import("../views/NotificationsView.vue"),
+      beforeEnter: authGuard,
+    },
+    {
       path: "/:pathMatch(.*)*",
       name: "notFound",
       component: () => import("../views/NotFoundView.vue"),

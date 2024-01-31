@@ -20,8 +20,8 @@
         <nav class="mt-10 px-2 space-y-1">
           <RouterLink
             to="/wall"
-            :class="{ 'bg-gray-900 text-white': page === 'wall', 'text-gray-300 hover:text-white hover:bg-gray-700': page !== 'wall'}"
-            class=" flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-white "
+            :class="{ 'bg-gray-900 text-white': page === 'wall', 'text-gray-400 hover:text-white hover:bg-gray-700': page !== 'wall'}"
+            class=" flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md "
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -33,7 +33,7 @@
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              class="mr-4 h-6 w-6 text-gray-300 bg-transparent"
+              class="mr-4 h-6 w-6  bg-transparent"
             >
               <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
               <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -42,8 +42,8 @@
           </RouterLink>
 
           <RouterLink
-            to="/"
-            :class="{ 'bg-gray-900 text-white': page === 'hoe', 'text-gray-300 hover:text-white hover:bg-gray-700': page !== 'ome'}"
+            to="/notifications"
+            :class="{ 'bg-gray-900 text-white': page === 'notifications', 'text-gray-400 hover:text-white hover:bg-gray-700': page !== 'notifications'}"
             class="w-full flex px-2 py-2 text-base leading-6 font-medium rounded-md "          >
           <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -55,43 +55,17 @@
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="mr-4 h-6 w-6 text-gray-400 -hover:text-gray-300  bg-transparent"
+          class="mr-4 h-6 w-6  -hover:text-gray-300  bg-transparent"
         >
           <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
         </svg>
             Notifications
           <NotificationBubble class="ml-6 bg-transparent"/>
           </RouterLink>
-  
-          <RouterLink
-            to="/"
-            :class="{ 'bg-gray-900 text-white': page === 'hme', 'text-gray-300 hover:text-white hover:bg-gray-700': page !== 'hme'}"
-            class=" flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md "          >
-          <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="mr-4 h-6 w-6 text-gray-400 -hover:text-gray-300  bg-transparent"
-            >
-              <line x1="8" x2="21" y1="6" y2="6"></line>
-              <line x1="8" x2="21" y1="12" y2="12"></line>
-              <line x1="8" x2="21" y1="18" y2="18"></line>
-              <line x1="3" x2="3.01" y1="6" y2="6"></line>
-              <line x1="3" x2="3.01" y1="12" y2="12"></line>
-              <line x1="3" x2="3.01" y1="18" y2="18"></line>
-            </svg>
-            -
-          </RouterLink>
-  
+
           <RouterLink
             :to="{ name: 'profile', params: { userId: userId } }"
-            :class="{ 'bg-gray-900 text-white': page === 'profile', 'text-gray-300 hover:text-white hover:bg-gray-700': page !== 'profile'}"
+            :class="{ 'bg-gray-900 text-white': page === 'profile', 'text-gray-400 hover:text-white hover:bg-gray-700': page !== 'profile'}"
             class=" flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md "          >
           <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -109,32 +83,10 @@
               <circle cx="12" cy="7" r="4"></circle>
             </svg>
             Profile
-          </RouterLink>
-  
-          <RouterLink
-            to="/"
-            :class="{ 'bg-gray-900 text-white': page === 'hoe', 'text-gray-300 hover:text-white hover:bg-gray-700': page !== 'hme'}"
-            class=" flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md "          >
-          <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="mr-4 h-6 w-6 text-gray-400 -hover:text-gray-300 bg-transparent"
-            >
-              <circle cx="12" cy="12" r="1"></circle>
-              <circle cx="19" cy="12" r="1"></circle>
-              <circle cx="5" cy="12" r="1"></circle>
-            </svg>
-            -
-          </RouterLink>
-
-          <LogoutButton class="self-end"/>
+          </RouterLink >
+          <div>
+          </div>
+          <LogoutButton />
         </nav>
       </div>
       
@@ -147,19 +99,23 @@ import NotificationBubble from '@/components/NotificationBubble.vue';
 import { useAuthStore } from '@/stores/authStore';
 
   export default {
+    props: {
+      route : {
+        type: Object,
+        required: true,
+      },
+    },
+    created() {
+      console.log(this.route);
+    },
     data() {
         return {
-            page: "",
+            page: this.route.name,
             userId: useAuthStore().user.userId ? useAuthStore().user.userId : "1", // TODO redirect to 404
         };
     },
-    watch: {
-        $route() {
-            this.page = this.$route.name;
-        }
-    },
     components: { LogoutButton, NotificationBubble }
 }
-  
+
   </script>
   

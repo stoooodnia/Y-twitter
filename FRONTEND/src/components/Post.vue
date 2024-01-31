@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="group flex flex-col gap-4 py-2 ">
     <div class="flex flex-1 flex-col">

@@ -1,6 +1,6 @@
 <template>
     <div class="min-h-screen max-w-screen flex bg-black justify-center ">
-      <NavBarView class=""/> 
+      <NavBarView :route="$route"/> 
       <div class="dark w-full min-h-screen bg-black text-white">
     <header class="relative h-[200px] overflow-hidden">
       <img
