@@ -64,14 +64,17 @@ import NewPostsAlert from "@/components/NewPostsAlert.vue";
       return {
         user: useAuthStore().user,
         newPostContent: "",
+        posts: usePostsStore().posts,
         // posts: this.fetchPosts(useAuthStore().user.userId),
       };
     },  
-    computed: {
-      posts() {
-        return usePostsStore().posts;
-      },
-    },
+    // computed: {
+    //   posts() {
+    //     const posts = usePostsStore().posts;
+    //     console.log(posts)
+    //     return posts;
+    //   },
+    // },
     created() {
       usePostsStore().fetchPosts(useAuthStore().user.userId);
     },
