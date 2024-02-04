@@ -91,7 +91,7 @@ const fetchPosts = async (req, res) => {
 
     if (createdAt && direction) {
       fetchPostsQuery += `
-        WHERE post.createdAt ${direction === "previous" ? "<" : ">"} $createdAt
+        WHERE post.createdAt ${direction === "previous" ? ">" : "<"} $createdAt
       `;
     }
 
@@ -100,6 +100,8 @@ const fetchPosts = async (req, res) => {
       ORDER BY post.createdAt DESC
       LIMIT $limit
     `;
+
+    console.log(fetchPostsQuery);
 
     const fetchPostsResult = await executeReadTransaction(fetchPostsQuery, {
       userId,

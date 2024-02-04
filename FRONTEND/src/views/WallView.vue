@@ -32,8 +32,8 @@
         </div>
         <!-- <div v-show="state.postEvents.length > 0" class="text-red-500"> New Post! refresh site!</div> -->
         <div class="w-full mt-4 text-white">
+          <!-- <button @click="fetchPreviousPosts">previous posts</button> -->
           <Post v-for="post in posts" :key="post.id" :post="post" class="px-4 border-b border-gray-600" />
-          
           <div ref="scrollObserver"></div>
         </div>
         <div class="text-lg text-gray-500 w-full flex justify-center"> no more posts</div>
@@ -114,9 +114,11 @@
         });
       },
       fetchPreviousPosts() {
+        alert("fetching previous posts")
         const createdAt = this.posts ? this.posts[0].createdAt : "";
         const direction = "previous";
         dataService.fetchPosts(this.user.userId, createdAt, direction).then((response) => {
+          console.log("response: ", response.data.posts)
           this.posts = response.data.posts.concat(this.posts);
         });
       }
