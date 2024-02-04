@@ -1,5 +1,5 @@
 <template>
-  <NewPostsAlert />
+  <NewPostsAlert @clicked="fetchPreviousPosts"/>
   <div class="min-h-screen max-w-screen flex bg-black justify-center">
     <NavBarView :route="$route"/> 
       <div class="w-full min-h-screen flex-col items-center border-x border-gray-600  ">
@@ -33,11 +33,10 @@
         <!-- <div v-show="state.postEvents.length > 0" class="text-red-500"> New Post! refresh site!</div> -->
         <div class="w-full mt-4 text-white">
           <Post v-for="post in posts" :key="post.id" :post="post" class="px-4 border-b border-gray-600" />
-          <button @click="fetchNextPosts" class="text-white">
-          Fetch next posts
-        </button>
-        </div> 
-
+          
+          <div ref="scrollObserver"></div>
+        </div>
+        <div class="text-lg text-gray-500 w-full flex justify-center"> no more posts</div>
       </div>
     <RightBarView />
   </div>
@@ -47,11 +46,10 @@
   import Post from "@/components/Post.vue";
   import NavBarView from "@/views/NavBarView.vue";
   import RightBarView from "@/views/RightBarView.vue";
-  import { usePostsStore } from "@/stores/postsStore";
   import dataService from "@/services/dataService";
   import { useAuthStore } from "@/stores/authStore";
   import { socket } from '@/socket/socket.js';
-import NewPostsAlert from "@/components/NewPostsAlert.vue";
+  import NewPostsAlert from "@/components/NewPostsAlert.vue";
   
   export default {
     components: {
@@ -64,36 +62,65 @@ import NewPostsAlert from "@/components/NewPostsAlert.vue";
       return {
         user: useAuthStore().user,
         newPostContent: "",
-        posts: usePostsStore().posts,
-        // posts: this.fetchPosts(useAuthStore().user.userId),
+        posts: [],
       };
-    },  
-    // computed: {
-    //   posts() {
-    //     const posts = usePostsStore().posts;
-    //     console.log(posts)
-    //     return posts;
-    //   },
-    // },
+    },
+    // dev testing only
+    watch: {
+      posts() {
+        console.log("posts download: ", this.posts.length);
+      }
+    },
     created() {
-      usePostsStore().fetchPosts(useAuthStore().user.userId);
+      this.fetchPosts();
+    },
+    mounted() {
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          if (this.posts.length > 0) {
+            this.fetchNextPosts();
+          }
+          
+          // alert("fetching next posts");
+        }
+      }, { threshold: 0.5 });
+      observer.observe(this.$refs.scrollObserver);
     },
     methods: {
       submitPost() {
         const newPost = {
-            userId: useAuthStore().user.userId,
+            userId: this.user.userId,
             content: this.newPostContent,
         };
         dataService.addPost(newPost).then(() => {
-            this.fetchPosts(useAuthStore().user.userId);
+            this.fetchPosts();
             this.newPostContent = "";
         }).then(() => {
           socket.emit("post", newPost)
         })
       },
-      fetchNextPosts() {
-        usePostsStore().fetchNextPosts(useAuthStore().user.userId);
+      fetchPosts() {
+        const createdAt = "";
+        const direction = "";
+        dataService.fetchPosts(this.user.userId, createdAt, direction).then((response) => {
+          this.posts = response.data.posts
+        });
       },
+      fetchNextPosts() {
+        const createdAt = this.posts ? this.posts[this.posts.length - 1].createdAt : "";
+        const direction = "next";
+        dataService.fetchPosts(this.user.userId, createdAt, direction).then((response) => {
+          this.posts = this.posts.concat(response.data.posts);
+        });
+      },
+      fetchPreviousPosts() {
+        const createdAt = this.posts ? this.posts[0].createdAt : "";
+        const direction = "previous";
+        dataService.fetchPosts(this.user.userId, createdAt, direction).then((response) => {
+          this.posts = response.data.posts.concat(this.posts);
+        });
+      }
+
     }
   };
   </script>

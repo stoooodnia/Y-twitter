@@ -73,7 +73,8 @@ const getPostsByUserId = async (req, res) => {
 const fetchPosts = async (req, res) => {
   try {
     const { userId } = req.params;
-    const { from, to } = req.query;
+    const { createdAt, direction } = req.query;
+    const limit = int(5);
 
     const userExistsQuery = "MATCH (user:User {userId: $userId}) RETURN user";
     const userExistsResult = await executeReadTransaction(userExistsQuery, {
@@ -84,20 +85,27 @@ const fetchPosts = async (req, res) => {
       return res.status(400).send({ error: "User does not exist." });
     }
 
-    const fetchPostsQuery = `
+    let fetchPostsQuery = `
       MATCH (user:User {userId: $userId})-[:IS_FOLLOWING]->(following:User)-[:POSTED]->(post:Post)
+    `;
+
+    if (createdAt && direction) {
+      fetchPostsQuery += `
+        WHERE post.createdAt ${direction === "previous" ? "<" : ">"} $createdAt
+      `;
+    }
+
+    fetchPostsQuery += `
       RETURN post
       ORDER BY post.createdAt DESC
-      SKIP $from
       LIMIT $limit
     `;
 
-    const limit = parseInt(to) - parseInt(from);
-
     const fetchPostsResult = await executeReadTransaction(fetchPostsQuery, {
-      userId: userId,
-      from: int(from),
-      limit: int(limit),
+      userId,
+      createdAt,
+      direction,
+      limit,
     });
 
     const posts = fetchPostsResult.records.map(

@@ -37,6 +37,7 @@
             scrollAndRefresh() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
                 useNotificationStore().clearNewPosts();
+                this.$emit("clicked");
             }
         }
     }
