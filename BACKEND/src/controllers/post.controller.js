@@ -99,7 +99,7 @@ const fetchPosts = async (req, res) => {
       LIMIT $limit
     `;
 
-    console.log(fetchPostsQuery);
+    // console.log(fetchPostsQuery);
 
     const fetchPostsResult = await executeReadTransaction(fetchPostsQuery, {
       userId,

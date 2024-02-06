@@ -23,7 +23,7 @@ const socketRouter = (io) => {
       const followers = await getFollowersOfUserByUserId(
         socket.request.user.userId
       );
-      console.log(followers);
+      // console.log(followers);
       followers.forEach((follower) => {
         const followerSocketId = activeSessions.get(follower.username);
         if (followerSocketId) {
