@@ -42,7 +42,6 @@ const getPostsByUserId = async (req, res) => {
   try {
     const { userId } = req.params;
 
-    // Sprawdź, czy użytkownik istnieje
     const userExistsQuery = "MATCH (user:User {userId: $userId}) RETURN user";
     const userExistsResult = await executeReadTransaction(userExistsQuery, {
       userId,
@@ -52,7 +51,6 @@ const getPostsByUserId = async (req, res) => {
       return res.send({ error: "User does not exist." });
     }
 
-    // Pobierz posty danego użytkownika
     const getPostsQuery =
       "MATCH (user:User {userId: $userId})-[:POSTED]->(post:Post) RETURN post";
     const getPostsResult = await executeReadTransaction(getPostsQuery, {
