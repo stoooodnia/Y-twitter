@@ -10,6 +10,14 @@ const addPost = async (req, res) => {
   try {
     const { userId, content } = req.body;
 
+    if (content.length === 0) {
+      return res.status(403).send({ error: "Post cannot be empty." });
+    }
+
+    if (content.length > 1000) {
+      return res.status(403).send({ error: "Post is too long." });
+    }
+
     const userExistsQuery = "MATCH (user:User {userId: $userId}) RETURN user";
     const userExistsResult = await executeReadTransaction(userExistsQuery, {
       userId,
@@ -123,6 +131,14 @@ const addReply = async (req, res) => {
   try {
     const { userId, content, postId } = req.body;
 
+    if (content.length === 0) {
+      return res.status(403).send({ error: "Reply cannot be empty." });
+    }
+
+    if (content.length > 100) {
+      return res.status(403).send({ error: "Reply is too long." });
+    }
+
     const userExistsQuery = "MATCH (user:User {userId: $userId}) RETURN user";
     const userExistsResult = await executeReadTransaction(userExistsQuery, {
       userId,
@@ -199,6 +215,10 @@ const fetchReplies = async (req, res) => {
 const quote = async (req, res) => {
   try {
     const { userId, content, postId } = req.body;
+
+    if (content.length > 1000) {
+      return res.status(403).send({ error: "Quote is too long." });
+    }
 
     const userExistsQuery = "MATCH (user:User {userId: $userId}) RETURN user";
     const userExistsResult = await executeReadTransaction(userExistsQuery, {

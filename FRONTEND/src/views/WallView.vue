@@ -17,6 +17,7 @@
                   class="h-auto w-full p-2 border border-gray-400 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="What's happening?"
                   rows="3"
+                  maxlength="1000"
                   >
                   </textarea>
               </div>

@@ -173,7 +173,7 @@
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6m0 12L6 6"/>
             </svg>
           </button>
-          <textarea v-model="newQuote" rows="3" class="w-full border border-gray-300 rounded-md mb-2 p-2" placeholder="Add reply..."></textarea>
+          <textarea v-model="newQuote" rows="3" maxlength="1000" class="w-full border border-gray-300 rounded-md mb-2 p-2" placeholder="Add reply..."></textarea>
           <button @click="quote" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">Quote</button>
         </div>
 <!--  -->
@@ -183,7 +183,7 @@
           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6m0 12L6 6"/>
         </svg>
       </button>
-      <textarea v-model="newReply" rows="3" class="w-full border border-gray-300 rounded-md mb-2 p-2" placeholder="Add reply..."></textarea>
+      <textarea v-model="newReply" rows="3" maxlength="100" class="w-full border border-gray-300 rounded-md mb-2 p-2" placeholder="Add reply..."></textarea>
       <button @click="addReply" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">Add reply</button>
       <div class="mt-4">
         <Post v-for="reply in replies" :key="reply.id" :post="reply" class="group flex flex-col gap-4 py-2 px-4 border-b border-gray-600"/>
