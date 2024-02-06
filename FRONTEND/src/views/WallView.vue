@@ -114,7 +114,7 @@
         });
       },
       fetchPreviousPosts() {
-        alert("fetching previous posts")
+        // alert("fetching previous posts")
         const createdAt = this.posts ? this.posts[0].createdAt : "";
         const direction = "previous";
         dataService.fetchPosts(this.user.userId, createdAt, direction).then((response) => {

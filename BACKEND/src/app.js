@@ -66,18 +66,18 @@ app.use("/user", isAuthenticated, require("./routes/user.route.js"));
 app.use("/posts", isAuthenticated, require("./routes/posts.route.js"));
 
 // vue app
-// const path = __dirname + "/../../FRONTEND/dist/";
-// app.use(express.static(path));
-// app.get("/", function (_req, res) {
-//   res.sendFile(path + "index.html");
-// });
-// const history = require("connect-history-api-fallback");
-// app.use(
-//   history({
-//     verbose: true,
-//   })
-// );
-// app.use(express.static(path));
+const path = __dirname + "/../../FRONTEND/dist/";
+app.use(express.static(path));
+app.get("/", function (_req, res) {
+  res.sendFile(path + "index.html");
+});
+const history = require("connect-history-api-fallback");
+app.use(
+  history({
+    verbose: true,
+  })
+);
+app.use(express.static(path));
 
 // ssl setup
 const fs = require("fs");
