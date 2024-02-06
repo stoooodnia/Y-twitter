@@ -16,6 +16,7 @@ socket.on("connect", () => {
 
 socket.on("disconnect", () => {
   notificationStore.connected = false;
+  notificationStore.clearNotifications();
   console.log("Disconnected from WebSocket!");
 });
 
@@ -31,5 +32,14 @@ socket.on("follow", (data) => {
     createdAt: data.createdAt,
   };
   console.log("notification: ", notification);
-  notificationStore.addNotification(notification);
+  // if not in store already
+  if (
+    notificationStore.notifications.filter((n) => {
+      console.log("n: ", n.user.username);
+      console.log("notification: ", notification.user.username);
+      return n.user.username === notification.user.username;
+    }).length === 0
+  ) {
+    notificationStore.addNotification(notification);
+  }
 });

@@ -14,7 +14,7 @@ export const useNotificationStore = defineStore({
   },
   actions: {
     addNotification(notification) {
-      this.notifications.push(notification);
+      this.notifications.unshift(notification);
     },
     clearNotifications() {
       this.notifications = [];

@@ -59,9 +59,9 @@ export default {
             console.log(data)
             dataService.checkFollow(data).then((res) => {
                 this.user.followed = res.data.following;
-                console.log("ok")
+                // console.log("ok")
             }).catch(() => {
-                console.log("error here")
+                // console.log("error here")
             })
         },
         follow(followingId) {

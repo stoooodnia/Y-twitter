@@ -1,6 +1,6 @@
 <template>
     <div class="min-h-screen max-w-screen flex bg-black justify-center">
-      <NavBarView class="w-1/3"/>
+      <NavBarView :route="$route"/>
         <div class="max-w-2xl mx-auto mt-8 p-8 bg-black rounded-md shadow-md text-white">
       <h1 class="text-2xl font-semibold mb-4">Edit Profile</h1>
   
