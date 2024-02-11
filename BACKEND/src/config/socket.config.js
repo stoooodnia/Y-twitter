@@ -4,7 +4,7 @@ const logger = require("./logger.config.js");
 const initSockets = (passport, server, session) => {
   const io = require("socket.io")(server, {
     cors: {
-      origin: "https://localhost:5173",
+      origin: "https://0.0.0.0:3000",
       credentials: true,
     },
   });

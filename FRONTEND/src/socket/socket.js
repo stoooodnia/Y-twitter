@@ -4,7 +4,7 @@ import { useNotificationStore } from "@/stores/notificationStore";
 const notificationStore = useNotificationStore();
 
 // used to send events
-export const socket = io("https://localhost:3000", {
+export const socket = io(`https://${window.location.hostname}:3000`, {
   withCredentials: true,
 });
 

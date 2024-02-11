@@ -12,7 +12,7 @@ const pinoHttp = require("pino-http");
 
 // cors
 const cors = require("cors");
-app.use(cors({ credentials: true, origin: "https://localhost:5173" }));
+app.use(cors({ credentials: true, origin: "https://192.168.197.137:3000" }));
 
 // security headers
 const helmet = require("helmet");

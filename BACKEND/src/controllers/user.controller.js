@@ -147,6 +147,8 @@ const checkFollow = async (req, res) => {
       return res.status(400).send({ error: "You cant follow yourself." });
     }
 
+    console.log(followerId, followingId);
+
     const relationshipExistsQuery =
       "MATCH (follower:User {userId: $followerId})-[r:IS_FOLLOWING]->(following:User {userId: $followingId}) RETURN r";
     const relationshipExistsResult = await executeReadTransaction(
