@@ -11,8 +11,8 @@ const pinoHttp = require("pino-http");
 // app.use(pinoHttp({ logger, prettyPrint: true })); // HTTP request logger
 
 // cors
-const cors = require("cors");
-app.use(cors({ credentials: true, origin: "https://192.168.197.137:3000" }));
+// const cors = require("cors");
+// app.use(cors({ credentials: true, origin: "" }));
 
 // security headers
 const helmet = require("helmet");
@@ -83,11 +83,10 @@ app.use(express.static(path));
 const fs = require("fs");
 const https = require("https");
 
-const PWD = process.env.PWD;
 const server = https.createServer(
   {
-    key: fs.readFileSync(`${PWD}/src/ssl/key.pem`), // __dirname
-    cert: fs.readFileSync(`${PWD}/src/ssl/cert.pem`),
+    key: fs.readFileSync(__dirname + `/ssl/key.pem`),
+    cert: fs.readFileSync(__dirname + `/ssl/cert.pem`),
   },
   app
 );
