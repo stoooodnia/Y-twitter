@@ -30,3 +30,7 @@ coverage
 *.tsbuildinfo
 
 neo4j_data
+
+# Misc
+*.env
+/ssl
