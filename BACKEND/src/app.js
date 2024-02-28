@@ -81,8 +81,8 @@ app.use(express.static(path));
 
 // netlify deploy
 const serverless = require("serverless-http");
-export const handler = serverless(app);
-
+const handler = serverless(app);
+module.exports = { handler };
 // // ssl setup
 // const fs = require("fs");
 // const https = require("https");
