@@ -79,25 +79,26 @@ app.use(
 );
 app.use(express.static(path));
 
-// netlify deploy
-const serverless = require("serverless-http");
-const handler = serverless(app);
-module.exports = { handler };
-// // ssl setup
-// const fs = require("fs");
-// const https = require("https");
+// // netlify deploy
+// const serverless = require("serverless-http");
+// const handler = serverless(app);
+// module.exports = { handler };
 
-// const server = https.createServer(
-//   {
-//     key: fs.readFileSync(__dirname + `/ssl/key.pem`),
-//     cert: fs.readFileSync(__dirname + `/ssl/cert.pem`),
-//   },
-//   app
-// );
+// ssl setup
+const fs = require("fs");
+const https = require("https");
 
-// // socket.io setup
-// const io = require("./config/socket.config.js")(passport, server, session);
-// require("./socket/socketRouter.js")(io);
+const server = https.createServer(
+  {
+    key: fs.readFileSync(__dirname + `/ssl/key.pem`),
+    cert: fs.readFileSync(__dirname + `/ssl/cert.pem`),
+  },
+  app
+);
 
-// // app exports
-// module.exports = { server };
+// socket.io setup
+const io = require("./config/socket.config.js")(passport, server, session);
+require("./socket/socketRouter.js")(io);
+
+// app exports
+module.exports = { server };
